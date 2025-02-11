@@ -1,5 +1,7 @@
+import Metrics from './components/Metrics';
 import SearchForm from './components/SearchForm';
 import TodoList from './components/TodoList';
+import metrics from './data/metrics';
 import todos from './data/todos';
 
 function App() {
@@ -8,6 +10,7 @@ function App() {
       <h1 className="text-4xl font-bold text-slate-800">My todo list</h1>
       <SearchForm />
       <TodoList todos={todos} />
+      <Metrics metrics={metrics} />
     </>
   );
 }
