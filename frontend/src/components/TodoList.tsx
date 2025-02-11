@@ -4,13 +4,16 @@ import Pagination from './Pagination';
 
 type TodoListProps = {
   todos: Todo[];
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function TodoList({ todos }: TodoListProps) {
+function TodoList({ todos, setShowModal }: TodoListProps) {
+  const handleShowModal = () => setShowModal(true);
+
   return (
     <section className="mt-12">
       <div className="flex items-center justify-between">
-        <AddTodoButton />
+        <AddTodoButton onClick={handleShowModal} />
         <div className="flex items-center gap-2">
           <p className="text-base text-slate-500">Todos per page</p>
           <select className="p-2 text-slate-500 browser-appearance-none border border-slate-300 rounded-lg">
@@ -55,7 +58,13 @@ function TodoList({ todos }: TodoListProps) {
                   {todo.dueDate?.toDateString()}
                 </td>
                 <td className="py-2 px-4 border border-r-0 border-b-0 border-slate-300">
-                  Delete / Edit
+                  <button
+                    onClick={handleShowModal}
+                    className="border-0 underline text-indigo-400 cursor-pointer"
+                  >
+                    Edit
+                  </button>{' '}
+                  / Delete
                 </td>
               </tr>
             ))}

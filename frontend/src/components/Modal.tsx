@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-function Modal() {
+type ModalProps = {
+  showModal: boolean;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function Modal({ showModal, setShowModal }: ModalProps) {
   const [hasDueDate, setHasDueDate] = useState(false);
+
+  if (!showModal) {
+    return;
+  }
 
   return (
     <div className="flex items-center justify-center fixed inset-0 bg-slate-400/50">
       <div className="relative px-4 sm:px-5 md:px-6 lg:px-8 py-10 bg-white border border-slate-300 w-9/10 max-w-xl rounded-2xl">
         <button
           tabIndex={0}
+          onClick={() => setShowModal(false)}
           className="absolute top-2 right-2 w-8 h-8 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100"
         >
           x <span className="sr-only">Close</span>
