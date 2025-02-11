@@ -1,4 +1,5 @@
 import Todo from '../types/Todo';
+import AddTodoButton from './AddTodoButton';
 
 type TodoListProps = {
   todos: Todo[];
@@ -6,8 +7,9 @@ type TodoListProps = {
 
 function TodoList({ todos }: TodoListProps) {
   return (
-    <section>
-      <div className="flex">
+    <section className="mt-4">
+      <div className="flex items-center">
+        <AddTodoButton />
         <div className="ml-auto flex gap-2">
           <p className="text-base text-slate-500">Todos per page</p>
           <select>
