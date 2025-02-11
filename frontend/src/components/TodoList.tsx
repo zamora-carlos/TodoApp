@@ -1,5 +1,6 @@
 import Todo from '../types/Todo';
 import AddTodoButton from './AddTodoButton';
+import Pagination from './Pagination';
 
 type TodoListProps = {
   todos: Todo[];
@@ -7,12 +8,12 @@ type TodoListProps = {
 
 function TodoList({ todos }: TodoListProps) {
   return (
-    <section className="mt-4">
-      <div className="flex items-center">
+    <section className="mt-12">
+      <div className="flex items-center justify-between">
         <AddTodoButton />
-        <div className="ml-auto flex gap-2">
+        <div className="flex items-center gap-2">
           <p className="text-base text-slate-500">Todos per page</p>
-          <select>
+          <select className="p-2 text-slate-500 browser-appearance-none border border-slate-300 rounded-lg">
             <option selected>10</option>
             <option>15</option>
             <option>20</option>
@@ -62,8 +63,9 @@ function TodoList({ todos }: TodoListProps) {
         </table>
       </div>
 
-      <div className="mt-2">
+      <div className="flex items-center justify-between mt-2">
         <p className="text-base text-slate-500">Showing 1 to 10 todos of 43</p>
+        <Pagination page={1} maxPage={5} />
       </div>
     </section>
   );
