@@ -8,7 +8,7 @@ type MetricsProps = {
 
 function Metrics({ metrics }: MetricsProps) {
   return (
-    <div className="flex items-center gap-4 text-slate-600 bg-white p-4 mt-12 border border-slate-300 rounded-2xl">
+    <div className="flex items-center gap-4 text-slate-600 bg-white p-4 mt-16 border border-slate-300 rounded-2xl">
       <div className="grow text-center">
         <p className="text-lg">Average time to finish tasks</p>
         <p className="text-xl text-center font-bold">

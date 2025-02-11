@@ -7,7 +7,7 @@ function SearchForm() {
     <section className="mt-4 md:mt-6">
       <h2 className="text-2xl font-bold text-slate-700">Search options</h2>
 
-      <form className="bg-white border border-slate-400 rounded-2xl p-4">
+      <form className="bg-white border border-slate-300 rounded-2xl p-4 mt-2">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
           <label className="text-base text-slate-700 font-medium min-w-16">
             Name

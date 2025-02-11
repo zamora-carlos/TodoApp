@@ -11,7 +11,7 @@ function TodoList({ todos, setShowModal }: TodoListProps) {
   const handleShowModal = () => setShowModal(true);
 
   return (
-    <section className="mt-12">
+    <section className="mt-16">
       <div className="flex items-center justify-between">
         <AddTodoButton onClick={handleShowModal} />
         <div className="flex items-center gap-2">
@@ -24,52 +24,54 @@ function TodoList({ todos, setShowModal }: TodoListProps) {
         </div>
       </div>
 
-      <div className="border border-slate-300 rounded-2xl overflow-hidden mt-2">
-        <table className="w-full">
-          <thead className="font-semibold text-slate-700 text-left">
-            <tr>
-              <th className="py-3 px-4 border-b border-slate-300">State</th>
-              <th className="py-3 px-4 border border-y-0 border-slate-300">
-                Name
-              </th>
-              <th className="py-3 px-4 border border-y-0 border-slate-300">
-                Priority
-              </th>
-              <th className="py-3 px-4 border border-y-0 border-slate-300">
-                Due date
-              </th>
-              <th className="py-3 px-4 border-b border-slate-300">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody className="text-slate-600">
-            {todos.map(todo => (
-              <tr key={todo.id}>
-                <td className="py-2 px-4 border border-l-0 border-b-0 border-slate-300">
-                  <input type="checkbox" checked={todo.state} />
-                </td>
-                <td className="py-2 px-4 border border-b-0 border-slate-300">
-                  {todo.name}
-                </td>
-                <td className="py-2 px-4 border border-b-0 border-slate-300">
-                  {todo.priority}
-                </td>
-                <td className="py-2 px-4 border border-b-0 border-slate-300">
-                  {todo.dueDate?.toDateString()}
-                </td>
-                <td className="py-2 px-4 border border-r-0 border-b-0 border-slate-300">
-                  <button
-                    onClick={handleShowModal}
-                    className="border-0 underline text-indigo-400 cursor-pointer"
-                  >
-                    Edit
-                  </button>{' '}
-                  / Delete
-                </td>
+      <div className="overflow-x-auto w-full">
+        <div className="border border-slate-300 rounded-2xl overflow-hidden mt-2 min-w-2xl">
+          <table className="w-full">
+            <thead className="font-semibold text-slate-700 text-left">
+              <tr>
+                <th className="py-3 px-4 border-b border-slate-300">State</th>
+                <th className="py-3 px-4 border border-y-0 border-slate-300">
+                  Name
+                </th>
+                <th className="py-3 px-4 border border-y-0 border-slate-300">
+                  Priority
+                </th>
+                <th className="py-3 px-4 border border-y-0 border-slate-300">
+                  Due date
+                </th>
+                <th className="py-3 px-4 border-b border-slate-300">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody className="text-slate-600">
+              {todos.map(todo => (
+                <tr key={todo.id}>
+                  <td className="py-2 px-4 border border-l-0 border-b-0 border-slate-300">
+                    <input type="checkbox" checked={todo.state} />
+                  </td>
+                  <td className="py-2 px-4 border border-b-0 border-slate-300">
+                    {todo.name}
+                  </td>
+                  <td className="py-2 px-4 border border-b-0 border-slate-300">
+                    {todo.priority}
+                  </td>
+                  <td className="py-2 px-4 border border-b-0 border-slate-300">
+                    {todo.dueDate?.toDateString()}
+                  </td>
+                  <td className="py-2 px-4 border border-r-0 border-b-0 border-slate-300">
+                    <button
+                      onClick={handleShowModal}
+                      className="border-0 underline text-indigo-400 cursor-pointer"
+                    >
+                      Edit
+                    </button>{' '}
+                    / Delete
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div className="flex items-center justify-between mt-2">
