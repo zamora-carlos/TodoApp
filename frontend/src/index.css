@@ -1,1 +1,7 @@
 @import 'tailwindcss';
+
+@utility browser-appearance-none {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
