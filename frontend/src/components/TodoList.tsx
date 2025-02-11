@@ -1,6 +1,9 @@
 import Todo from '../types/Todo';
 import AddTodoButton from './AddTodoButton';
 import Pagination from './Pagination';
+import { TbTriangleInvertedFilled } from 'react-icons/tb';
+import { HiPencil, HiTrash } from 'react-icons/hi2';
+import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 
 type TodoListProps = {
   todos: Todo[];
@@ -16,11 +19,16 @@ function TodoList({ todos, setShowModal }: TodoListProps) {
         <AddTodoButton onClick={handleShowModal} />
         <div className="flex items-center gap-2">
           <p className="text-base text-slate-500">Todos per page</p>
-          <select className="p-2 text-slate-500 browser-appearance-none border border-slate-300 rounded-lg">
-            <option selected>10</option>
-            <option>15</option>
-            <option>20</option>
-          </select>
+
+          <div className="relative group">
+            <select className="text-slate-500 p-2 pr-6 bg-transparent border border-slate-300 rounded-lg browser-appearance-none">
+              <option selected>10</option>
+              <option>15</option>
+              <option>20</option>
+            </select>
+
+            <TbTriangleInvertedFilled className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-400 text-xs group-hover:text-slate-500 transition-colors-duration-200" />
+          </div>
         </div>
       </div>
 
@@ -30,15 +38,37 @@ function TodoList({ todos, setShowModal }: TodoListProps) {
             <thead className="font-semibold text-slate-700 text-left">
               <tr>
                 <th className="py-3 px-4 border-b border-slate-300">State</th>
+
                 <th className="py-3 px-4 border border-y-0 border-slate-300">
-                  Name
+                  <div className="flex items-center gap-1">
+                    Name
+                    <div className="flex flex-col">
+                      <GoTriangleUp className="text-slate-400" />
+                      <GoTriangleDown className="text-slate-400 -mt-2" />
+                    </div>
+                  </div>
                 </th>
+
                 <th className="py-3 px-4 border border-y-0 border-slate-300">
-                  Priority
+                  <div className="flex items-center gap-1">
+                    Priority
+                    <div className="flex flex-col">
+                      <GoTriangleUp className="text-slate-400" />
+                      <GoTriangleDown className="text-slate-400 -mt-2" />
+                    </div>
+                  </div>
                 </th>
+
                 <th className="py-3 px-4 border border-y-0 border-slate-300">
-                  Due date
+                  <div className="flex items-center gap-1">
+                    Due date
+                    <div className="flex flex-col">
+                      <GoTriangleUp className="text-slate-400" />
+                      <GoTriangleDown className="text-slate-400 -mt-2" />
+                    </div>
+                  </div>
                 </th>
+
                 <th className="py-3 px-4 border-b border-slate-300">Actions</th>
               </tr>
             </thead>
@@ -61,11 +91,18 @@ function TodoList({ todos, setShowModal }: TodoListProps) {
                   <td className="py-2 px-4 border border-r-0 border-b-0 border-slate-300">
                     <button
                       onClick={handleShowModal}
-                      className="border-0 underline text-indigo-400 cursor-pointer"
+                      className="border-0 cursor-pointer text-slate-400 hover:text-slate-500"
                     >
-                      Edit
+                      <HiPencil className="text-xl" />
+                      <span className="sr-only">Edit</span>
                     </button>{' '}
-                    / Delete
+                    <button
+                      onClick={handleShowModal}
+                      className="border-0 cursor-pointer text-slate-400 hover:text-slate-500"
+                    >
+                      <HiTrash className="text-xl" />
+                      <span className="sr-only">Delete</span>
+                    </button>
                   </td>
                 </tr>
               ))}

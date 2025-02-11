@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { IoClose } from 'react-icons/io5';
 
 type ModalProps = {
   showModal: boolean;
@@ -18,9 +19,10 @@ function Modal({ showModal, setShowModal }: ModalProps) {
         <button
           tabIndex={0}
           onClick={() => setShowModal(false)}
-          className="absolute top-2 right-2 w-8 h-8 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100"
+          className="flex items-center justify-center absolute top-2 right-2 w-8 h-8 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 group"
         >
-          x <span className="sr-only">Close</span>
+          <IoClose className="group-hover:rotate-90 duration-200 text-slate-500 ease-in-out" />
+          <span className="sr-only">Close</span>
         </button>
         <h2 className="text-2xl font-semibold text-slate-700">Create todo</h2>
         <div className="flex flex-col mt-4">

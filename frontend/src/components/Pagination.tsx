@@ -1,3 +1,5 @@
+import { HiChevronDoubleLeft, HiChevronDoubleRight } from 'react-icons/hi';
+
 type PaginationProps = {
   page: number;
   maxPage: number;
@@ -23,7 +25,7 @@ function Pagination({ page, maxPage }: PaginationProps) {
         onClick={() => alert('This should display the first page of todos')}
         className="flex items-center justify-center w-10 h-10 text-slate-700 hover:border hover:border-slate-300 rounded-xl cursor-pointer hover:bg-slate-100"
       >
-        &lt;&lt;
+        <HiChevronDoubleLeft />
       </button>
       {pageNumbers.map(currPage => (
         <button
@@ -45,7 +47,7 @@ function Pagination({ page, maxPage }: PaginationProps) {
         onClick={() => alert('This should display the last page of todos')}
         className="flex items-center justify-center w-10 h-10 text-slate-700 hover:border hover:border-slate-300 rounded-xl cursor-pointer hover:bg-slate-100"
       >
-        &gt;&gt;
+        <HiChevronDoubleRight />
       </button>
     </div>
   );
