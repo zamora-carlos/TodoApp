@@ -1,4 +1,5 @@
 import Metrics from './components/Metrics';
+import Modal from './components/Modal';
 import SearchForm from './components/SearchForm';
 import TodoList from './components/TodoList';
 import metrics from './data/metrics';
@@ -11,6 +12,7 @@ function App() {
       <SearchForm />
       <TodoList todos={todos} />
       <Metrics metrics={metrics} />
+      <Modal />
     </>
   );
 }
