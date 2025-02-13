@@ -4,14 +4,24 @@ import Pagination from './Pagination';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { AppDispatch, RootState } from '../redux/store';
+import { getTodosAsync } from '../redux/todoSlice';
 
 type TodoListProps = {
   todos: Todo[];
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function TodoList({ todos, setShowModal }: TodoListProps) {
+function TodoList({ setShowModal }: TodoListProps) {
+  const dispatch = useDispatch<AppDispatch>();
   const handleShowModal = () => setShowModal(true);
+  const todos = useSelector((state: RootState) => state.todos.todos);
+
+  useEffect(() => {
+    dispatch(getTodosAsync());
+  }, [dispatch]);
 
   return (
     <section className="mt-16">
@@ -80,13 +90,13 @@ function TodoList({ todos, setShowModal }: TodoListProps) {
                     <input type="checkbox" checked={todo.state} />
                   </td>
                   <td className="py-2 px-4 border border-b-0 border-slate-300">
-                    {todo.name}
+                    {todo.text}
                   </td>
                   <td className="py-2 px-4 border border-b-0 border-slate-300">
                     {todo.priority}
                   </td>
                   <td className="py-2 px-4 border border-b-0 border-slate-300">
-                    {todo.dueDate?.toDateString()}
+                    {todo.dueDate}
                   </td>
                   <td className="py-2 px-4 border border-r-0 border-b-0 border-slate-300">
                     <button

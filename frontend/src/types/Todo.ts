@@ -1,9 +1,9 @@
 type Todo = {
   id: number;
   state: boolean;
-  name: string;
+  text: string;
   priority: 'Low' | 'Medium' | 'High';
-  dueDate?: Date;
+  dueDate?: string;
 };
 
 export default Todo;
