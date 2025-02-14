@@ -7,7 +7,11 @@ import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '../redux/store';
-import { getTodosAsync, deleteTodoAsync } from '../redux/todosSlice';
+import {
+  getTodosAsync,
+  deleteTodoAsync,
+  toggleTodoAsync,
+} from '../redux/todosSlice';
 import Filter from '../types/Filter';
 
 type TodoListProps = {
@@ -26,12 +30,18 @@ function TodoList({ setShowModal }: TodoListProps) {
     priority: null,
   });
 
+  console.log(todos);
+
   useEffect(() => {
     dispatch(getTodosAsync(filter));
   }, [dispatch, filter]);
 
   const handleDeleteTodo = (id: number) => {
     dispatch(deleteTodoAsync(id));
+  };
+
+  const handleToggleTodo = (id: number, done: boolean) => {
+    dispatch(toggleTodoAsync({ id, done }));
   };
 
   return (
@@ -98,7 +108,11 @@ function TodoList({ setShowModal }: TodoListProps) {
               {todos.map(todo => (
                 <tr key={todo.id}>
                   <td className="py-2 px-4 border border-l-0 border-b-0 border-slate-300">
-                    <input type="checkbox" checked={todo.isDone} />
+                    <input
+                      type="checkbox"
+                      checked={todo.done}
+                      onChange={() => handleToggleTodo(todo.id, !todo.done)}
+                    />
                   </td>
                   <td className="py-2 px-4 border border-b-0 border-slate-300">
                     {todo.text}

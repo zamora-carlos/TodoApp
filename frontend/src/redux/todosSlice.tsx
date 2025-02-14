@@ -102,6 +102,24 @@ export const deleteTodoAsync = createAsyncThunk<void, number>(
   }
 );
 
+export const toggleTodoAsync = createAsyncThunk<
+  { id: number; done: boolean },
+  { id: number; done: boolean }
+>('todos/toggleTodoAsync', async ({ id, done }, thunkAPI) => {
+  try {
+    const endpoint = `http://localhost:9090/todos/${id}/${done ? 'done' : 'undone'}`;
+
+    await fetch(endpoint, {
+      method: done ? 'POST' : 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    return { id, done };
+  } catch {
+    return thunkAPI.rejectWithValue('Error deleting todo');
+  }
+});
+
 // Slice
 const todosSlice = createSlice({
   name: 'todos',
@@ -128,7 +146,18 @@ const todosSlice = createSlice({
       .addCase(getTodosAsync.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      })
+      .addCase(
+        toggleTodoAsync.fulfilled,
+        (state, action: PayloadAction<{ id: number; done: boolean }>) => {
+          const todo = state.content.find(
+            todo => todo.id === action.payload.id
+          );
+          if (todo) {
+            todo.done = action.payload.done;
+          }
+        }
+      );
   },
 });
 
