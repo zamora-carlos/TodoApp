@@ -4,14 +4,45 @@ import Pagination from './Pagination';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { AppDispatch, RootState } from '../redux/store';
+import {
+  getTodosAsync,
+  deleteTodoAsync,
+  toggleTodoAsync,
+} from '../redux/todosSlice';
+import Filter from '../types/Filter';
 
 type TodoListProps = {
   todos: Todo[];
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function TodoList({ todos, setShowModal }: TodoListProps) {
+function TodoList({ setShowModal }: TodoListProps) {
+  const dispatch = useDispatch<AppDispatch>();
   const handleShowModal = () => setShowModal(true);
+  const todos = useSelector((state: RootState) => state.todos.content);
+
+  const [filter, setFilter] = useState<Filter>({
+    name: null,
+    done: null,
+    priority: null,
+  });
+
+  console.log(todos);
+
+  useEffect(() => {
+    dispatch(getTodosAsync(filter));
+  }, [dispatch, filter]);
+
+  const handleDeleteTodo = (id: number) => {
+    dispatch(deleteTodoAsync(id));
+  };
+
+  const handleToggleTodo = (id: number, done: boolean) => {
+    dispatch(toggleTodoAsync({ id, done }));
+  };
 
   return (
     <section className="mt-16">
@@ -22,7 +53,7 @@ function TodoList({ todos, setShowModal }: TodoListProps) {
 
           <div className="relative group">
             <select className="text-slate-500 p-2 pr-6 bg-transparent border border-slate-300 rounded-lg browser-appearance-none">
-              <option selected>10</option>
+              <option>10</option>
               <option>15</option>
               <option>20</option>
             </select>
@@ -77,16 +108,20 @@ function TodoList({ todos, setShowModal }: TodoListProps) {
               {todos.map(todo => (
                 <tr key={todo.id}>
                   <td className="py-2 px-4 border border-l-0 border-b-0 border-slate-300">
-                    <input type="checkbox" checked={todo.state} />
+                    <input
+                      type="checkbox"
+                      checked={todo.done}
+                      onChange={() => handleToggleTodo(todo.id, !todo.done)}
+                    />
                   </td>
                   <td className="py-2 px-4 border border-b-0 border-slate-300">
-                    {todo.name}
+                    {todo.text}
                   </td>
                   <td className="py-2 px-4 border border-b-0 border-slate-300">
                     {todo.priority}
                   </td>
                   <td className="py-2 px-4 border border-b-0 border-slate-300">
-                    {todo.dueDate?.toDateString()}
+                    {todo.dueDate}
                   </td>
                   <td className="py-2 px-4 border border-r-0 border-b-0 border-slate-300">
                     <button
@@ -97,7 +132,7 @@ function TodoList({ todos, setShowModal }: TodoListProps) {
                       <span className="sr-only">Edit</span>
                     </button>{' '}
                     <button
-                      onClick={handleShowModal}
+                      onClick={() => handleDeleteTodo(todo.id)}
                       className="border-0 cursor-pointer text-slate-400 hover:text-slate-500"
                     >
                       <HiTrash className="text-xl" />
