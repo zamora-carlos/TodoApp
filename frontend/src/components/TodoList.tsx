@@ -5,9 +5,10 @@ import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '../redux/store';
-import { getTodosAsync } from '../redux/todoSlice';
+import { getTodosAsync } from '../redux/todosSlice';
+import Filter from '../types/Filter';
 
 type TodoListProps = {
   todos: Todo[];
@@ -17,11 +18,17 @@ type TodoListProps = {
 function TodoList({ setShowModal }: TodoListProps) {
   const dispatch = useDispatch<AppDispatch>();
   const handleShowModal = () => setShowModal(true);
-  const todos = useSelector((state: RootState) => state.todos.todos);
+  const todos = useSelector((state: RootState) => state.todos.content);
+
+  const [filter, setFilter] = useState<Filter>({
+    name: null,
+    done: null,
+    priority: null,
+  });
 
   useEffect(() => {
-    dispatch(getTodosAsync());
-  }, [dispatch]);
+    dispatch(getTodosAsync(filter));
+  }, [dispatch, filter]);
 
   return (
     <section className="mt-16">
@@ -32,7 +39,7 @@ function TodoList({ setShowModal }: TodoListProps) {
 
           <div className="relative group">
             <select className="text-slate-500 p-2 pr-6 bg-transparent border border-slate-300 rounded-lg browser-appearance-none">
-              <option selected>10</option>
+              <option>10</option>
               <option>15</option>
               <option>20</option>
             </select>
@@ -87,7 +94,7 @@ function TodoList({ setShowModal }: TodoListProps) {
               {todos.map(todo => (
                 <tr key={todo.id}>
                   <td className="py-2 px-4 border border-l-0 border-b-0 border-slate-300">
-                    <input type="checkbox" checked={todo.state} />
+                    <input type="checkbox" checked={todo.isDone} />
                   </td>
                   <td className="py-2 px-4 border border-b-0 border-slate-300">
                     {todo.text}
