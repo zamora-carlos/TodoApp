@@ -7,7 +7,7 @@ import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '../redux/store';
-import { getTodosAsync } from '../redux/todosSlice';
+import { getTodosAsync, deleteTodoAsync } from '../redux/todosSlice';
 import Filter from '../types/Filter';
 
 type TodoListProps = {
@@ -29,6 +29,10 @@ function TodoList({ setShowModal }: TodoListProps) {
   useEffect(() => {
     dispatch(getTodosAsync(filter));
   }, [dispatch, filter]);
+
+  const handleDeleteTodo = (id: number) => {
+    dispatch(deleteTodoAsync(id));
+  };
 
   return (
     <section className="mt-16">
@@ -114,7 +118,7 @@ function TodoList({ setShowModal }: TodoListProps) {
                       <span className="sr-only">Edit</span>
                     </button>{' '}
                     <button
-                      onClick={handleShowModal}
+                      onClick={() => handleDeleteTodo(todo.id)}
                       className="border-0 cursor-pointer text-slate-400 hover:text-slate-500"
                     >
                       <HiTrash className="text-xl" />
