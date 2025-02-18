@@ -1,8 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import todoReducer from '../redux/todosSlice';
+import todosReducer from '../redux/todosSlice';
+import viewOptionsReducer from '../redux/todosSlice';
+import modalReducer from '../redux/todosSlice';
 
 const store = configureStore({
-  reducer: { todos: todoReducer },
+  reducer: {
+    todos: todosReducer,
+    viewOptions: viewOptionsReducer,
+    modal: modalReducer,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;

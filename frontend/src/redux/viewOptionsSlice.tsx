@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import SortCriteria from '../types/SortCriteria';
 import Filter from '../types/Filter';
 
-type FilterState = {
+export type ViewOptionsState = {
   sortCriteria: SortCriteria;
   filter: Filter;
   pageSize: number;
 };
 
-const initialState: FilterState = {
+const initialState: ViewOptionsState = {
   sortCriteria: {
     sortBy: 'TEXT',
     order: 'ASC',
