@@ -21,11 +21,7 @@ type TodoListProps = {
 function TodoList({ setShowModal }: TodoListProps) {
   const dispatch = useDispatch<AppDispatch>();
   const handleShowModal = () => setShowModal(true);
-  const todos = useSelector((state: RootState) => state.todos.content);
-  const currentPage = useSelector(
-    (state: RootState) => state.todos.currentPage
-  );
-  const maxPage = useSelector((state: RootState) => state.todos.totalPages);
+  const pagination = useSelector((state: RootState) => state.todos);
 
   useEffect(() => {
     dispatch(getTodosAsync());
@@ -48,9 +44,9 @@ function TodoList({ setShowModal }: TodoListProps) {
 
           <div className="relative group">
             <select className="text-slate-500 p-2 pr-6 bg-transparent border border-slate-300 rounded-lg browser-appearance-none">
-              <option>10</option>
-              <option>15</option>
-              <option>20</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
             </select>
 
             <TbTriangleInvertedFilled className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-400 text-xs group-hover:text-slate-500 transition-colors-duration-200" />
@@ -100,7 +96,7 @@ function TodoList({ setShowModal }: TodoListProps) {
             </thead>
 
             <tbody className="text-slate-600">
-              {todos.map(todo => (
+              {pagination.content.map(todo => (
                 <tr key={todo.id}>
                   <td className="py-2 px-4 border border-l-0 border-b-0 border-slate-300">
                     <input
@@ -142,8 +138,18 @@ function TodoList({ setShowModal }: TodoListProps) {
       </div>
 
       <div className="flex items-center justify-between mt-2">
-        <p className="text-base text-slate-500">Showing 1 to 10 todos of 43</p>
-        <Pagination page={currentPage} maxPage={Math.max(1, maxPage)} />
+        {pagination.totalItems > 0 && (
+          <p className="text-base text-slate-500">
+            Showing {(pagination.currentPage - 1) * pagination.pageSize + 1} to{' '}
+            {(pagination.currentPage - 1) * pagination.pageSize +
+              pagination.content.length}{' '}
+            todos of {pagination.totalItems}
+          </p>
+        )}
+        <Pagination
+          page={pagination.currentPage}
+          maxPage={Math.max(1, pagination.totalPages)}
+        />
       </div>
     </section>
   );
