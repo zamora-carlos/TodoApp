@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
-import CreateTodo from '../types/CreateTodo';
+import CreateTodo from '../types/TodoPayload';
 import { useDispatch } from 'react-redux';
 import { addTodoAsync } from '../redux/todosSlice';
 import { AppDispatch } from '../redux/store';

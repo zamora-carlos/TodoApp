@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import todosReducer from '../redux/todosSlice';
-import viewOptionsReducer from '../redux/todosSlice';
-import modalReducer from '../redux/todosSlice';
+import viewOptionsReducer from '../redux/viewOptionsSlice';
+import modalReducer from '../redux/modalSlice';
 
 const store = configureStore({
   reducer: {

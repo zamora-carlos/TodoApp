@@ -1,17 +1,24 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import PaginatedTodosResponse from '../types/PaginatedResponse';
-import CreateTodo from '../types/TodoPayload';
+import TodoPayload from '../types/TodoPayload';
 import { ViewOptionsState } from './viewOptionsSlice';
+import { ModalState } from './modalSlice';
 
 type TodosState = PaginatedTodosResponse & {
   loading: boolean;
   error: string | null;
 };
 
+type RootState = {
+  todos: TodosState;
+  viewOptions: ViewOptionsState;
+  modal: ModalState;
+};
+
 const initialState: TodosState = {
   content: [],
   currentPage: 1,
-  totalPages: 1,
+  totalPages: 0,
   pageSize: 10,
   totalItems: 0,
   loading: false,
@@ -21,13 +28,10 @@ const initialState: TodosState = {
 export const getTodosAsync = createAsyncThunk<
   PaginatedTodosResponse,
   void,
-  { state: { viewOptions: ViewOptionsState } }
+  { state: RootState }
 >('todos/fetchTodos', async (_, { getState, rejectWithValue }) => {
   try {
-    const state = getState() as {
-      viewOptions: ViewOptionsState;
-      todos: TodosState;
-    };
+    const state = getState();
     const viewOptions = state.viewOptions;
     const currentPage = state.todos.currentPage;
     const pageSize = state.todos.pageSize;
@@ -64,8 +68,8 @@ export const getTodosAsync = createAsyncThunk<
 
 export const addTodoAsync = createAsyncThunk<
   void,
-  CreateTodo,
-  { state: { viewOptions: ViewOptionsState } }
+  TodoPayload,
+  { state: RootState }
 >('todos/addTodoAsync', async (todo, thunkAPI) => {
   try {
     await fetch('http://localhost:9090/todos', {
@@ -82,8 +86,8 @@ export const addTodoAsync = createAsyncThunk<
 
 export const updateTodoAsync = createAsyncThunk<
   void,
-  { id: number; todo: CreateTodo },
-  { state: { viewOptions: ViewOptionsState } }
+  { id: number; todo: TodoPayload },
+  { state: RootState }
 >('todos/updateTodoAsync', async ({ id, todo }, thunkAPI) => {
   try {
     await fetch(`http://localhost:9090/todos/${id}`, {
@@ -101,7 +105,7 @@ export const updateTodoAsync = createAsyncThunk<
 export const deleteTodoAsync = createAsyncThunk<
   void,
   number,
-  { state: { viewOptions: ViewOptionsState } }
+  { state: RootState }
 >('todos/deleteTodoAsync', async (id, thunkAPI) => {
   try {
     await fetch(`http://localhost:9090/todos/${id}`, {
@@ -118,8 +122,8 @@ export const deleteTodoAsync = createAsyncThunk<
 export const changePageAsync = createAsyncThunk<
   void,
   number,
-  { state: { viewOptions: ViewOptionsState } }
->('viewOptions/changePageAsync', async (page, thunkAPI) => {
+  { state: RootState }
+>('todos/changePageAsync', async (page, thunkAPI) => {
   thunkAPI.dispatch(changePage(page));
   thunkAPI.dispatch(getTodosAsync());
 });
@@ -127,10 +131,29 @@ export const changePageAsync = createAsyncThunk<
 export const changePageSizeAsync = createAsyncThunk<
   void,
   number,
-  { state: { viewOptions: ViewOptionsState } }
->('viewOptions/changePageSizeAsync', async (page, thunkAPI) => {
+  { state: RootState }
+>('todos/changePageSizeAsync', async (page, thunkAPI) => {
   thunkAPI.dispatch(changePageSize(page));
   thunkAPI.dispatch(getTodosAsync());
+});
+
+export const toggleTodoAsync = createAsyncThunk<
+  void,
+  { id: number; done: boolean },
+  { state: RootState }
+>('todos/toggleTodoAsync', async ({ id, done }, thunkAPI) => {
+  try {
+    const endpoint = `http://localhost:9090/todos/${id}/${done ? 'done' : 'undone'}`;
+
+    await fetch(endpoint, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    thunkAPI.dispatch(getTodosAsync());
+  } catch {
+    return thunkAPI.rejectWithValue('Error updating todo status');
+  }
 });
 
 const todosSlice = createSlice({
@@ -138,7 +161,8 @@ const todosSlice = createSlice({
   initialState,
   reducers: {
     changePage: (state, action: PayloadAction<number>) => {
-      state.pageSize = action.payload;
+      const newPage = action.payload;
+      state.currentPage = Math.max(1, Math.min(newPage, state.totalPages));
     },
     changePageSize: (state, action: PayloadAction<number>) => {
       const newPageSize = action.payload;
