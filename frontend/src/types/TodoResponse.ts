@@ -1,4 +1,4 @@
-type Todo = {
+type TodoResponse = {
   id: number;
   text: string;
   priority: 'LOW' | 'MEDIUM' | 'HIGH';
@@ -6,4 +6,4 @@ type Todo = {
   dueDate: string | null;
 };
 
-export default Todo;
+export default TodoResponse;

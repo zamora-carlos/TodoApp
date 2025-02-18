@@ -1,18 +1,17 @@
-import Todo from '../types/Todo';
+import Todo from '../types/TodoResponse';
 import AddTodoButton from './AddTodoButton';
 import Pagination from './Pagination';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { AppDispatch, RootState } from '../redux/store';
 import {
   getTodosAsync,
   deleteTodoAsync,
   toggleTodoAsync,
 } from '../redux/todosSlice';
-import Filter from '../types/Filter';
 
 type TodoListProps = {
   todos: Todo[];
@@ -23,18 +22,14 @@ function TodoList({ setShowModal }: TodoListProps) {
   const dispatch = useDispatch<AppDispatch>();
   const handleShowModal = () => setShowModal(true);
   const todos = useSelector((state: RootState) => state.todos.content);
-
-  const [filter, setFilter] = useState<Filter>({
-    name: null,
-    done: null,
-    priority: null,
-  });
-
-  console.log(todos);
+  const currentPage = useSelector(
+    (state: RootState) => state.todos.currentPage
+  );
+  const maxPage = useSelector((state: RootState) => state.todos.totalPages);
 
   useEffect(() => {
-    dispatch(getTodosAsync(filter));
-  }, [dispatch, filter]);
+    dispatch(getTodosAsync());
+  }, [dispatch]);
 
   const handleDeleteTodo = (id: number) => {
     dispatch(deleteTodoAsync(id));
@@ -148,7 +143,7 @@ function TodoList({ setShowModal }: TodoListProps) {
 
       <div className="flex items-center justify-between mt-2">
         <p className="text-base text-slate-500">Showing 1 to 10 todos of 43</p>
-        <Pagination page={1} maxPage={5} />
+        <Pagination page={currentPage} maxPage={Math.max(1, maxPage)} />
       </div>
     </section>
   );
