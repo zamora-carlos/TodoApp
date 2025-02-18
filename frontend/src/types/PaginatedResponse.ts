@@ -1,13 +1,11 @@
-import Filter from './Filter';
-import Todo from './Todo';
+import TodoResponse from './TodoResponse';
 
 type PaginatedResponse = {
-  content: Todo[];
+  content: TodoResponse[];
   currentPage: number;
   totalPages: number;
   pageSize: number;
   totalItems: number;
-  filter: Filter;
 };
 
 export default PaginatedResponse;

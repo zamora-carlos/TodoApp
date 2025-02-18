@@ -1,7 +1,7 @@
-type CreateTodo = {
+type TodoPayload = {
   text: string;
   priority: 'LOW' | 'MEDIUM' | 'HIGH';
   dueDate: string | null;
 };
 
-export default CreateTodo;
+export default TodoPayload;
