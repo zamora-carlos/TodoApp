@@ -3,8 +3,9 @@ import PaginatedTodosResponse from '../types/PaginatedResponse';
 import TodoPayload from '../types/TodoPayload';
 import { ViewOptionsState } from './viewOptionsSlice';
 import { ModalState } from './modalSlice';
+import { getMetricsAsync, MetricsState } from './metricsSlice';
 
-type TodosState = PaginatedTodosResponse & {
+export type TodosState = PaginatedTodosResponse & {
   loading: boolean;
   error: string | null;
 };
@@ -13,6 +14,7 @@ type RootState = {
   todos: TodosState;
   viewOptions: ViewOptionsState;
   modal: ModalState;
+  metrics: MetricsState;
 };
 
 const initialState: TodosState = {
@@ -97,6 +99,7 @@ export const updateTodoAsync = createAsyncThunk<
     });
 
     thunkAPI.dispatch(getTodosAsync());
+    thunkAPI.dispatch(getMetricsAsync());
   } catch {
     return thunkAPI.rejectWithValue('Error updating todo');
   }
@@ -114,6 +117,7 @@ export const deleteTodoAsync = createAsyncThunk<
     });
 
     thunkAPI.dispatch(getTodosAsync());
+    thunkAPI.dispatch(getMetricsAsync());
   } catch {
     return thunkAPI.rejectWithValue('Error deleting todo');
   }
@@ -151,6 +155,7 @@ export const toggleTodoAsync = createAsyncThunk<
     });
 
     thunkAPI.dispatch(getTodosAsync());
+    thunkAPI.dispatch(getMetricsAsync());
   } catch {
     return thunkAPI.rejectWithValue('Error updating todo status');
   }
