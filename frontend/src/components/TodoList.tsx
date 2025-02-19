@@ -1,4 +1,3 @@
-import Todo from '../types/TodoResponse';
 import AddTodoButton from './AddTodoButton';
 import Pagination from './Pagination';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
@@ -15,15 +14,11 @@ import {
 } from '../redux/todosSlice';
 import SortCriteria from '../types/SortCriteria';
 import { updateSortCriteria } from '../redux/viewOptionsSlice';
+import { showModal } from '../redux/modalSlice';
 
-type TodoListProps = {
-  todos: Todo[];
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-function TodoList({ setShowModal }: TodoListProps) {
+function TodoList() {
   const dispatch = useDispatch<AppDispatch>();
-  const handleShowModal = () => setShowModal(true);
+
   const pagination = useSelector((state: RootState) => state.todos);
   const [sortBy, setSortBy] = useState<SortCriteria['sortBy']>('TEXT');
   const [order, setOrder] = useState<SortCriteria['order']>('ASC');
@@ -71,7 +66,7 @@ function TodoList({ setShowModal }: TodoListProps) {
   return (
     <section className="mt-16">
       <div className="flex items-center justify-between">
-        <AddTodoButton onClick={handleShowModal} />
+        <AddTodoButton onClick={() => dispatch(showModal())} />
         <div className="flex items-center gap-2">
           <p className="text-base text-slate-500">Todos per page</p>
 
@@ -197,7 +192,7 @@ function TodoList({ setShowModal }: TodoListProps) {
                   </td>
                   <td className="py-2 px-4 border border-r-0 border-b-0 border-slate-300">
                     <button
-                      onClick={handleShowModal}
+                      onClick={() => dispatch(showModal())}
                       className="border-0 cursor-pointer text-slate-400 hover:text-slate-500"
                     >
                       <HiPencil className="text-xl" />
