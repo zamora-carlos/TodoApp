@@ -5,7 +5,7 @@ import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '../redux/store';
 import {
   getTodosAsync,
@@ -13,6 +13,8 @@ import {
   toggleTodoAsync,
   changePageSizeAsync,
 } from '../redux/todosSlice';
+import SortCriteria from '../types/SortCriteria';
+import { updateSortCriteria } from '../redux/viewOptionsSlice';
 
 type TodoListProps = {
   todos: Todo[];
@@ -23,10 +25,17 @@ function TodoList({ setShowModal }: TodoListProps) {
   const dispatch = useDispatch<AppDispatch>();
   const handleShowModal = () => setShowModal(true);
   const pagination = useSelector((state: RootState) => state.todos);
+  const [sortBy, setSortBy] = useState<SortCriteria['sortBy']>('TEXT');
+  const [order, setOrder] = useState<SortCriteria['order']>('ASC');
 
   useEffect(() => {
     dispatch(getTodosAsync());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(updateSortCriteria({ sortBy, order }));
+    dispatch(getTodosAsync());
+  }, [dispatch, sortBy, order]);
 
   const handleDeleteTodo = (id: number) => {
     dispatch(deleteTodoAsync(id));
@@ -40,6 +49,23 @@ function TodoList({ setShowModal }: TodoListProps) {
     const pageSize = parseInt(evt.target.value);
 
     dispatch(changePageSizeAsync(pageSize));
+  };
+
+  function isValidSortBy(value: string): value is SortCriteria['sortBy'] {
+    return ['TEXT', 'PRIORITY', 'DUE_DATE'].includes(value);
+  }
+
+  const handleUpdateSorting = (newSortBy: string) => {
+    if (!isValidSortBy(newSortBy)) {
+      return;
+    }
+
+    if (newSortBy === sortBy) {
+      setOrder(prevOrder => (prevOrder === 'ASC' ? 'DESC' : 'ASC'));
+    } else {
+      setSortBy(newSortBy);
+      setOrder('ASC');
+    }
   };
 
   return (
@@ -71,32 +97,77 @@ function TodoList({ setShowModal }: TodoListProps) {
               <tr>
                 <th className="py-3 px-4 border-b border-slate-300">State</th>
 
-                <th className="py-3 px-4 border border-y-0 border-slate-300">
+                <th
+                  className="py-3 px-4 border border-y-0 border-slate-300"
+                  onClick={() => handleUpdateSorting('TEXT')}
+                >
                   <div className="flex items-center gap-1">
                     Name
                     <div className="flex flex-col">
-                      <GoTriangleUp className="text-slate-400" />
-                      <GoTriangleDown className="text-slate-400 -mt-2" />
+                      <GoTriangleUp
+                        className={
+                          sortBy === 'TEXT' && order === 'ASC'
+                            ? 'text-lg text-indigo-400'
+                            : 'text-lg text-slate-300'
+                        }
+                      />
+                      <GoTriangleDown
+                        className={
+                          sortBy === 'TEXT' && order === 'DESC'
+                            ? 'text-lg text-indigo-400 -mt-2'
+                            : 'text-lg text-slate-300 -mt-2'
+                        }
+                      />
                     </div>
                   </div>
                 </th>
 
-                <th className="py-3 px-4 border border-y-0 border-slate-300">
+                <th
+                  className="py-3 px-4 border border-y-0 border-slate-300"
+                  onClick={() => handleUpdateSorting('PRIORITY')}
+                >
                   <div className="flex items-center gap-1">
                     Priority
                     <div className="flex flex-col">
-                      <GoTriangleUp className="text-slate-400" />
-                      <GoTriangleDown className="text-slate-400 -mt-2" />
+                      <GoTriangleUp
+                        className={
+                          sortBy === 'PRIORITY' && order === 'ASC'
+                            ? 'text-lg text-indigo-400'
+                            : 'text-lg text-slate-300'
+                        }
+                      />
+                      <GoTriangleDown
+                        className={
+                          sortBy === 'PRIORITY' && order === 'DESC'
+                            ? 'text-lg text-indigo-400 -mt-2'
+                            : 'text-lg text-slate-300 -mt-2'
+                        }
+                      />
                     </div>
                   </div>
                 </th>
 
-                <th className="py-3 px-4 border border-y-0 border-slate-300">
+                <th
+                  className="py-3 px-4 border border-y-0 border-slate-300"
+                  onClick={() => handleUpdateSorting('DUE_DATE')}
+                >
                   <div className="flex items-center gap-1">
                     Due date
                     <div className="flex flex-col">
-                      <GoTriangleUp className="text-slate-400" />
-                      <GoTriangleDown className="text-slate-400 -mt-2" />
+                      <GoTriangleUp
+                        className={
+                          sortBy === 'DUE_DATE' && order === 'ASC'
+                            ? 'text-lg text-indigo-400'
+                            : 'text-lg text-slate-300'
+                        }
+                      />
+                      <GoTriangleDown
+                        className={
+                          sortBy === 'DUE_DATE' && order === 'DESC'
+                            ? 'text-lg text-indigo-400 -mt-2'
+                            : 'text-lg text-slate-300 -mt-2'
+                        }
+                      />
                     </div>
                   </div>
                 </th>
