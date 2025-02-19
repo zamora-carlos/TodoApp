@@ -116,6 +116,12 @@ export const deleteTodoAsync = createAsyncThunk<
       headers: { 'Content-Type': 'application/json' },
     });
 
+    const { todos } = thunkAPI.getState();
+
+    if (todos.content.length === 1) {
+      thunkAPI.dispatch(changePage(todos.currentPage - 1));
+    }
+
     thunkAPI.dispatch(getTodosAsync());
     thunkAPI.dispatch(getMetricsAsync());
   } catch {
