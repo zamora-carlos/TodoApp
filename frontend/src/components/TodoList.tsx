@@ -5,12 +5,13 @@ import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { AppDispatch, RootState } from '../redux/store';
 import {
   getTodosAsync,
   deleteTodoAsync,
   toggleTodoAsync,
+  changePageSizeAsync,
 } from '../redux/todosSlice';
 
 type TodoListProps = {
@@ -35,6 +36,12 @@ function TodoList({ setShowModal }: TodoListProps) {
     dispatch(toggleTodoAsync({ id, done }));
   };
 
+  const handleChangePageSize = (evt: React.ChangeEvent<HTMLSelectElement>) => {
+    const pageSize = parseInt(evt.target.value);
+
+    dispatch(changePageSizeAsync(pageSize));
+  };
+
   return (
     <section className="mt-16">
       <div className="flex items-center justify-between">
@@ -43,7 +50,10 @@ function TodoList({ setShowModal }: TodoListProps) {
           <p className="text-base text-slate-500">Todos per page</p>
 
           <div className="relative group">
-            <select className="text-slate-500 p-2 pr-6 bg-transparent border border-slate-300 rounded-lg browser-appearance-none">
+            <select
+              className="text-slate-500 p-2 pr-6 bg-transparent border border-slate-300 rounded-lg browser-appearance-none"
+              onChange={handleChangePageSize}
+            >
               <option value="10">10</option>
               <option value="15">15</option>
               <option value="20">20</option>
@@ -138,14 +148,17 @@ function TodoList({ setShowModal }: TodoListProps) {
       </div>
 
       <div className="flex items-center justify-between mt-2">
-        {pagination.totalItems > 0 && (
-          <p className="text-base text-slate-500">
-            Showing {(pagination.currentPage - 1) * pagination.pageSize + 1} to{' '}
-            {(pagination.currentPage - 1) * pagination.pageSize +
-              pagination.content.length}{' '}
-            todos of {pagination.totalItems}
-          </p>
-        )}
+        <p className="text-base text-slate-500">
+          {pagination.totalItems > 0 && (
+            <span>
+              Showing {(pagination.currentPage - 1) * pagination.pageSize + 1}{' '}
+              to{' '}
+              {(pagination.currentPage - 1) * pagination.pageSize +
+                pagination.content.length}{' '}
+              todos of {pagination.totalItems}
+            </span>
+          )}
+        </p>
         <Pagination
           page={pagination.currentPage}
           maxPage={Math.max(1, pagination.totalPages)}

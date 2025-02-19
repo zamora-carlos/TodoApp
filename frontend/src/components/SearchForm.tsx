@@ -13,7 +13,7 @@ function SearchForm() {
   const [done, setDone] = useState('ALL');
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleClickSearchButton = (evt: React.FormEvent) => {
+  const handleSubmitForm = (evt: React.FormEvent) => {
     evt.preventDefault();
 
     const filter: Filter = {
@@ -31,7 +31,10 @@ function SearchForm() {
     <section className="mt-4 md:mt-6">
       <h2 className="text-2xl font-bold text-slate-700">Search options</h2>
 
-      <form className="bg-white border border-slate-300 rounded-2xl p-4 mt-2">
+      <form
+        className="bg-white border border-slate-300 rounded-2xl p-4 mt-2"
+        onSubmit={handleSubmitForm}
+      >
         <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
           <label className="text-base text-slate-700 font-medium min-w-16">
             Name
@@ -87,10 +90,7 @@ function SearchForm() {
             type="submit"
             className="text-base text-slate-700 font-medium py-2 px-4 inline-block border border-slate-400 rounded-lg cursor-pointer w-full sm:max-w-2xs sm:ml-auto hover:bg-slate-100"
           >
-            <p
-              className="flex items-center gap-2 justify-center"
-              onClick={handleClickSearchButton}
-            >
+            <p className="flex items-center gap-2 justify-center">
               Search
               <FaMagnifyingGlass className="w-4 text-slate-700" />
             </p>
