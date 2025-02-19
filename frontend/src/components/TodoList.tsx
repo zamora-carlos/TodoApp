@@ -14,7 +14,7 @@ import {
 } from '../redux/todosSlice';
 import SortCriteria from '../types/SortCriteria';
 import { updateSortCriteria } from '../redux/viewOptionsSlice';
-import { showModal } from '../redux/modalSlice';
+import { showCreateModal, showEditModal } from '../redux/modalSlice';
 
 function TodoList() {
   const dispatch = useDispatch<AppDispatch>();
@@ -66,7 +66,7 @@ function TodoList() {
   return (
     <section className="mt-16">
       <div className="flex items-center justify-between">
-        <AddTodoButton onClick={() => dispatch(showModal())} />
+        <AddTodoButton onClick={() => dispatch(showCreateModal())} />
         <div className="flex items-center gap-2">
           <p className="text-base text-slate-500">Todos per page</p>
 
@@ -192,7 +192,7 @@ function TodoList() {
                   </td>
                   <td className="py-2 px-4 border border-r-0 border-b-0 border-slate-300">
                     <button
-                      onClick={() => dispatch(showModal())}
+                      onClick={() => dispatch(showEditModal(todo.id))}
                       className="border-0 cursor-pointer text-slate-400 hover:text-slate-500"
                     >
                       <HiPencil className="text-xl" />

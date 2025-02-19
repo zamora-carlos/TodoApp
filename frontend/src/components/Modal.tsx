@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import CreateTodo from '../types/TodoPayload';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodoAsync } from '../redux/todosSlice';
+import { addTodoAsync, updateTodoAsync } from '../redux/todosSlice';
 import { AppDispatch } from '../redux/store';
 import { RootState } from '../redux/store';
 import { hideModal } from '../redux/modalSlice';
@@ -10,6 +10,8 @@ import { hideModal } from '../redux/modalSlice';
 function Modal() {
   const dispatch = useDispatch<AppDispatch>();
   const modalState = useSelector((state: RootState) => state.modal);
+  const todos = useSelector((state: RootState) => state.todos.content);
+
   const [hasDueDate, setHasDueDate] = useState(false);
   const [todo, setTodo] = useState<CreateTodo>({
     text: '',
@@ -17,10 +19,33 @@ function Modal() {
     dueDate: null,
   });
 
+  const existingTodo = modalState.todoId
+    ? todos.find(todo => todo.id === modalState.todoId)
+    : null;
+
+  useEffect(() => {
+    setHasDueDate(!!existingTodo?.dueDate);
+
+    setTodo({
+      text: existingTodo?.text || '',
+      priority: existingTodo?.priority || 'LOW',
+      dueDate: existingTodo?.dueDate || null,
+    });
+  }, [existingTodo]);
+
   const handleClick = () => {
-    dispatch(
-      addTodoAsync({ ...todo, dueDate: hasDueDate ? todo.dueDate : null })
-    );
+    if (modalState.todoId) {
+      dispatch(
+        updateTodoAsync({
+          id: modalState.todoId,
+          todo: { ...todo, dueDate: hasDueDate ? todo.dueDate : null },
+        })
+      );
+    } else {
+      dispatch(
+        addTodoAsync({ ...todo, dueDate: hasDueDate ? todo.dueDate : null })
+      );
+    }
   };
 
   return (
@@ -37,7 +62,7 @@ function Modal() {
               <span className="sr-only">Close</span>
             </button>
             <h2 className="text-2xl font-semibold text-slate-700">
-              Create todo
+              {modalState.todoId !== undefined ? 'Updated todo' : 'Create todo'}
             </h2>
             <div className="flex flex-col mt-4">
               <label className="text-slate-600">Name</label>
