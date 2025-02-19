@@ -1,40 +1,36 @@
-import Todo from '../types/Todo';
 import AddTodoButton from './AddTodoButton';
 import Pagination from './Pagination';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '../redux/store';
 import {
   getTodosAsync,
   deleteTodoAsync,
   toggleTodoAsync,
+  changePageSizeAsync,
 } from '../redux/todosSlice';
-import Filter from '../types/Filter';
+import SortCriteria from '../types/SortCriteria';
+import { updateSortCriteria } from '../redux/viewOptionsSlice';
+import { showCreateModal, showEditModal } from '../redux/modalSlice';
 
-type TodoListProps = {
-  todos: Todo[];
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-function TodoList({ setShowModal }: TodoListProps) {
+function TodoList() {
   const dispatch = useDispatch<AppDispatch>();
-  const handleShowModal = () => setShowModal(true);
-  const todos = useSelector((state: RootState) => state.todos.content);
 
-  const [filter, setFilter] = useState<Filter>({
-    name: null,
-    done: null,
-    priority: null,
-  });
-
-  console.log(todos);
+  const pagination = useSelector((state: RootState) => state.todos);
+  const [sortBy, setSortBy] = useState<SortCriteria['sortBy']>('TEXT');
+  const [order, setOrder] = useState<SortCriteria['order']>('ASC');
 
   useEffect(() => {
-    dispatch(getTodosAsync(filter));
-  }, [dispatch, filter]);
+    dispatch(getTodosAsync());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(updateSortCriteria({ sortBy, order }));
+    dispatch(getTodosAsync());
+  }, [dispatch, sortBy, order]);
 
   const handleDeleteTodo = (id: number) => {
     dispatch(deleteTodoAsync(id));
@@ -44,18 +40,44 @@ function TodoList({ setShowModal }: TodoListProps) {
     dispatch(toggleTodoAsync({ id, done }));
   };
 
+  const handleChangePageSize = (evt: React.ChangeEvent<HTMLSelectElement>) => {
+    const pageSize = parseInt(evt.target.value);
+
+    dispatch(changePageSizeAsync(pageSize));
+  };
+
+  function isValidSortBy(value: string): value is SortCriteria['sortBy'] {
+    return ['TEXT', 'PRIORITY', 'DUE_DATE'].includes(value);
+  }
+
+  const handleUpdateSorting = (newSortBy: string) => {
+    if (!isValidSortBy(newSortBy)) {
+      return;
+    }
+
+    if (newSortBy === sortBy) {
+      setOrder(prevOrder => (prevOrder === 'ASC' ? 'DESC' : 'ASC'));
+    } else {
+      setSortBy(newSortBy);
+      setOrder('ASC');
+    }
+  };
+
   return (
     <section className="mt-16">
       <div className="flex items-center justify-between">
-        <AddTodoButton onClick={handleShowModal} />
+        <AddTodoButton onClick={() => dispatch(showCreateModal())} />
         <div className="flex items-center gap-2">
           <p className="text-base text-slate-500">Todos per page</p>
 
           <div className="relative group">
-            <select className="text-slate-500 p-2 pr-6 bg-transparent border border-slate-300 rounded-lg browser-appearance-none">
-              <option>10</option>
-              <option>15</option>
-              <option>20</option>
+            <select
+              className="text-slate-500 p-2 pr-6 bg-transparent border border-slate-300 rounded-lg browser-appearance-none"
+              onChange={handleChangePageSize}
+            >
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
             </select>
 
             <TbTriangleInvertedFilled className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-400 text-xs group-hover:text-slate-500 transition-colors-duration-200" />
@@ -70,32 +92,77 @@ function TodoList({ setShowModal }: TodoListProps) {
               <tr>
                 <th className="py-3 px-4 border-b border-slate-300">State</th>
 
-                <th className="py-3 px-4 border border-y-0 border-slate-300">
+                <th
+                  className="py-3 px-4 border border-y-0 border-slate-300"
+                  onClick={() => handleUpdateSorting('TEXT')}
+                >
                   <div className="flex items-center gap-1">
                     Name
                     <div className="flex flex-col">
-                      <GoTriangleUp className="text-slate-400" />
-                      <GoTriangleDown className="text-slate-400 -mt-2" />
+                      <GoTriangleUp
+                        className={
+                          sortBy === 'TEXT' && order === 'ASC'
+                            ? 'text-lg text-indigo-400'
+                            : 'text-lg text-slate-300'
+                        }
+                      />
+                      <GoTriangleDown
+                        className={
+                          sortBy === 'TEXT' && order === 'DESC'
+                            ? 'text-lg text-indigo-400 -mt-2'
+                            : 'text-lg text-slate-300 -mt-2'
+                        }
+                      />
                     </div>
                   </div>
                 </th>
 
-                <th className="py-3 px-4 border border-y-0 border-slate-300">
+                <th
+                  className="py-3 px-4 border border-y-0 border-slate-300"
+                  onClick={() => handleUpdateSorting('PRIORITY')}
+                >
                   <div className="flex items-center gap-1">
                     Priority
                     <div className="flex flex-col">
-                      <GoTriangleUp className="text-slate-400" />
-                      <GoTriangleDown className="text-slate-400 -mt-2" />
+                      <GoTriangleUp
+                        className={
+                          sortBy === 'PRIORITY' && order === 'ASC'
+                            ? 'text-lg text-indigo-400'
+                            : 'text-lg text-slate-300'
+                        }
+                      />
+                      <GoTriangleDown
+                        className={
+                          sortBy === 'PRIORITY' && order === 'DESC'
+                            ? 'text-lg text-indigo-400 -mt-2'
+                            : 'text-lg text-slate-300 -mt-2'
+                        }
+                      />
                     </div>
                   </div>
                 </th>
 
-                <th className="py-3 px-4 border border-y-0 border-slate-300">
+                <th
+                  className="py-3 px-4 border border-y-0 border-slate-300"
+                  onClick={() => handleUpdateSorting('DUE_DATE')}
+                >
                   <div className="flex items-center gap-1">
                     Due date
                     <div className="flex flex-col">
-                      <GoTriangleUp className="text-slate-400" />
-                      <GoTriangleDown className="text-slate-400 -mt-2" />
+                      <GoTriangleUp
+                        className={
+                          sortBy === 'DUE_DATE' && order === 'ASC'
+                            ? 'text-lg text-indigo-400'
+                            : 'text-lg text-slate-300'
+                        }
+                      />
+                      <GoTriangleDown
+                        className={
+                          sortBy === 'DUE_DATE' && order === 'DESC'
+                            ? 'text-lg text-indigo-400 -mt-2'
+                            : 'text-lg text-slate-300 -mt-2'
+                        }
+                      />
                     </div>
                   </div>
                 </th>
@@ -105,7 +172,7 @@ function TodoList({ setShowModal }: TodoListProps) {
             </thead>
 
             <tbody className="text-slate-600">
-              {todos.map(todo => (
+              {pagination.content.map(todo => (
                 <tr key={todo.id}>
                   <td className="py-2 px-4 border border-l-0 border-b-0 border-slate-300">
                     <input
@@ -125,7 +192,7 @@ function TodoList({ setShowModal }: TodoListProps) {
                   </td>
                   <td className="py-2 px-4 border border-r-0 border-b-0 border-slate-300">
                     <button
-                      onClick={handleShowModal}
+                      onClick={() => dispatch(showEditModal(todo.id))}
                       className="border-0 cursor-pointer text-slate-400 hover:text-slate-500"
                     >
                       <HiPencil className="text-xl" />
@@ -147,8 +214,21 @@ function TodoList({ setShowModal }: TodoListProps) {
       </div>
 
       <div className="flex items-center justify-between mt-2">
-        <p className="text-base text-slate-500">Showing 1 to 10 todos of 43</p>
-        <Pagination page={1} maxPage={5} />
+        <p className="text-base text-slate-500">
+          {pagination.totalItems > 0 && (
+            <span>
+              Showing {(pagination.currentPage - 1) * pagination.pageSize + 1}{' '}
+              to{' '}
+              {(pagination.currentPage - 1) * pagination.pageSize +
+                pagination.content.length}{' '}
+              todos of {pagination.totalItems}
+            </span>
+          )}
+        </p>
+        <Pagination
+          page={pagination.currentPage}
+          maxPage={Math.max(1, pagination.totalPages)}
+        />
       </div>
     </section>
   );
