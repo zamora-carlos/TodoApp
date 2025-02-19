@@ -1,4 +1,7 @@
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from 'react-icons/hi';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../redux/store';
+import { changePageAsync } from '../redux/todosSlice';
 
 type PaginationProps = {
   page: number;
@@ -6,6 +9,7 @@ type PaginationProps = {
 };
 
 function Pagination({ page, maxPage }: PaginationProps) {
+  const dispatch = useDispatch<AppDispatch>();
   let pageNumbers: number[];
 
   if (page != 1 && page != maxPage) {
@@ -18,11 +22,15 @@ function Pagination({ page, maxPage }: PaginationProps) {
 
   pageNumbers = pageNumbers.filter(x => x > 0 && x <= maxPage);
 
+  const handleClickPaginationButton = (pageNumber: number) => {
+    dispatch(changePageAsync(pageNumber));
+  };
+
   return (
     <div className="flex gap-1">
       <button
         disabled={1 === page}
-        onClick={() => alert('This should display the first page of todos')}
+        onClick={() => handleClickPaginationButton(1)}
         className="flex items-center justify-center w-10 h-10 text-slate-700 hover:border hover:border-slate-300 rounded-xl cursor-pointer hover:bg-slate-100"
       >
         <HiChevronDoubleLeft />
@@ -35,16 +43,14 @@ function Pagination({ page, maxPage }: PaginationProps) {
             (currPage === page ? ' border border-slate-300 bg-slate-50' : '')
           }
           disabled={currPage === page}
-          onClick={() =>
-            alert('This should display the ' + currPage + ' page of todos')
-          }
+          onClick={() => handleClickPaginationButton(currPage)}
         >
           {currPage}
         </button>
       ))}
       <button
         disabled={maxPage === page}
-        onClick={() => alert('This should display the last page of todos')}
+        onClick={() => handleClickPaginationButton(maxPage)}
         className="flex items-center justify-center w-10 h-10 text-slate-700 hover:border hover:border-slate-300 rounded-xl cursor-pointer hover:bg-slate-100"
       >
         <HiChevronDoubleRight />
