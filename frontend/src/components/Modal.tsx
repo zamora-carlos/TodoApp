@@ -6,10 +6,21 @@ import { hideModal } from '../redux/modalSlice';
 import type { AppDispatch, RootState } from '../redux/store';
 import type TodoPayload from '../types/TodoPayload';
 
-function Modal() {
+type ModalProps = {
+  setToast: React.Dispatch<
+    React.SetStateAction<{
+      message: string;
+      type: 'success' | 'error';
+    } | null>
+  >;
+};
+
+function Modal({ setToast }: ModalProps) {
   const dispatch = useDispatch<AppDispatch>();
   const modalState = useSelector((state: RootState) => state.modal);
-  const todos = useSelector((state: RootState) => state.todos.content);
+  const { error, content: todos } = useSelector(
+    (state: RootState) => state.todos
+  );
 
   const modalRef = useRef<HTMLFormElement | null>(null);
   const [hasDueDate, setHasDueDate] = useState(false);
@@ -117,24 +128,31 @@ function Modal() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleClick = (evt: React.FormEvent<HTMLElement>) => {
+  const handleClick = async (evt: React.FormEvent<HTMLElement>) => {
     evt.preventDefault();
 
     if (validateForm()) {
-      if (modalState.todoId) {
-        dispatch(
-          updateTodoAsync({
-            id: modalState.todoId,
-            todo: { ...todo, dueDate: hasDueDate ? todo.dueDate : null },
-          })
-        );
-      } else {
-        dispatch(
-          addTodoAsync({ ...todo, dueDate: hasDueDate ? todo.dueDate : null })
-        );
-      }
+      try {
+        if (modalState.todoId) {
+          await dispatch(
+            updateTodoAsync({
+              id: modalState.todoId,
+              todo: { ...todo, dueDate: hasDueDate ? todo.dueDate : null },
+            })
+          ).unwrap();
 
-      closeModal();
+          setToast({ message: 'Todo updated successfully!', type: 'success' });
+        } else {
+          await dispatch(
+            addTodoAsync({ ...todo, dueDate: hasDueDate ? todo.dueDate : null })
+          ).unwrap();
+
+          setToast({ message: 'Todo created successfully!', type: 'success' });
+        }
+        closeModal();
+      } catch {
+        setToast({ message: error ?? '', type: 'success' });
+      }
     }
   };
 

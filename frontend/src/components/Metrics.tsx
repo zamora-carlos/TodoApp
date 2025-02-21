@@ -18,7 +18,7 @@ function Metrics() {
       <div className="flex items-center gap-4 mt-2 text-slate-600 bg-white p-4 border border-slate-300 rounded-2xl">
         <div className="grow text-center">
           <p className="text-lg">Average time to finish tasks</p>
-          <p className="text-xl text-center font-bold">
+          <p className="text-2xl text-center font-bold text-indigo-400">
             {metrics.avgTime > 0
               ? formatTimeFromSeconds(metrics.avgTime)
               : '--------'}
@@ -26,25 +26,31 @@ function Metrics() {
         </div>
         <div className="flex flex-col grow gap-3 text-center">
           <p className="text-lg">Average time to finish tasks by priority</p>
-          <p>
-            <span className="font-medium text-lg">Low</span>{' '}
-            <span className="text-xl text-center font-bold">
+          <p className="text-center">
+            <span className="font-xl font-bold text-xl text-indigo-400">
+              Low
+            </span>{' '}
+            <span className="text-lg font-light">
               {metrics.avgTimeLow > 0
                 ? formatTimeFromSeconds(metrics.avgTimeLow)
                 : '--------'}
             </span>
           </p>
-          <p>
-            <span className="font-medium text-lg">Medium</span>{' '}
-            <span className="text-xl text-center font-bold">
+          <p className="text-center">
+            <span className="font-xl font-bold text-xl text-indigo-400">
+              Medium
+            </span>{' '}
+            <span className="text-lg font-light">
               {metrics.avgTimeMedium > 0
                 ? formatTimeFromSeconds(metrics.avgTimeMedium)
                 : '--------'}
             </span>
           </p>
-          <p>
-            <span className="font-medium text-lg">High</span>{' '}
-            <span className="text-xl text-center font-bold">
+          <p className="text-center">
+            <span className="font-xl font-bold text-xl text-indigo-400">
+              High
+            </span>{' '}
+            <span className="text-lg font-light">
               {metrics.avgTimeHigh > 0
                 ? formatTimeFromSeconds(metrics.avgTimeHigh)
                 : '--------'}
