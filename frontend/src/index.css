@@ -5,3 +5,36 @@
   -moz-appearance: none;
   appearance: none;
 }
+
+@layer components {
+  .checkbox {
+    --highlight-color: var(--color-indigo-500);
+
+    @apply browser-appearance-none grid place-content-center m-0 bg-transparent text-current border border-current rounded-md;
+    font: inherit;
+    width: 1.15em;
+    height: 1.15em;
+    transform: translateY(-0.075em);
+    cursor: pointer;
+  }
+
+  .checkbox::before {
+    content: '';
+    background-color: CanvasText;
+    @apply w-[0.65em] h-[0.65em];
+    transform: scale(0);
+    transition: transform 150ms ease-in-out;
+    box-shadow: inset 1em 1em var(--highlight-color);
+    transform-origin: bottom left;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  }
+
+  .checkbox:checked::before {
+    transform: scale(1);
+  }
+
+  .checkbox:focus {
+    outline: 2px solid var(--highlight-color);
+    outline-offset: 1px;
+  }
+}
