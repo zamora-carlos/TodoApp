@@ -52,6 +52,20 @@ The application will start the application at http://localhost:8080.
 - **Pagination:** Handle a large number of tasks by paginating the list.
 - **Performance metrics:** Track the average time from task creation to completion, overall and by priority.
 
+## UI Design
+
+### Search/filtering controls
+
+<img width="1023" alt="Screenshot 2025-02-21 at 5 36 25 p m" src="https://github.com/user-attachments/assets/d7754e56-1ba5-481f-b22f-ca2ceb8f4d4f" />
+
+### Todo list
+
+<img width="1031" alt="Screenshot 2025-02-21 at 5 36 52 p m" src="https://github.com/user-attachments/assets/5fb78dc9-1729-40be-9a77-089bebf3b7b1" />
+
+### Area to show metrics
+
+<img width="1030" alt="Screenshot 2025-02-21 at 5 37 15 p m" src="https://github.com/user-attachments/assets/ccedc6d6-b2a7-48de-b11c-a360de57e279" />
+
 ## Frontend structure
 
 ```
