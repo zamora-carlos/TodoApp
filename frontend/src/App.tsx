@@ -17,7 +17,7 @@ function App() {
         My todo list
       </h1>
       <SearchForm />
-      <TodoList />
+      <TodoList setToast={setToast} />
       <Metrics />
       <Modal setToast={setToast} />
 

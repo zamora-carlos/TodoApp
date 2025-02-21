@@ -6,9 +6,17 @@ import TodoListHeader from './TodoListHeader';
 import TodoListRow from './TodoListRow';
 import TodoListPaginationInfo from './TodoListPaginationInfo';
 import type { AppDispatch, RootState } from '../redux/store';
-import LoadingSpinner from './LoadingSpinner';
 
-function TodoList() {
+type TodoListProps = {
+  setToast: React.Dispatch<
+    React.SetStateAction<{
+      message: string;
+      type: 'success' | 'error';
+    } | null>
+  >;
+};
+
+function TodoList({ setToast }: TodoListProps) {
   const dispatch = useDispatch<AppDispatch>();
   const pagination = useSelector((state: RootState) => state.todos);
 
@@ -20,11 +28,7 @@ function TodoList() {
     <section className="mt-16">
       <TodoListHeaderControls />
 
-      {pagination.loading ? (
-        <div className="my-48">
-          <LoadingSpinner />
-        </div>
-      ) : pagination.error ? (
+      {pagination.error ? (
         <p className="text-red-300 text-sm font-medium my-48 text-center">
           {pagination.error}
         </p>
@@ -40,7 +44,7 @@ function TodoList() {
 
               <tbody className="text-slate-600">
                 {pagination.content.map(todo => (
-                  <TodoListRow key={todo.id} todo={todo} />
+                  <TodoListRow setToast={setToast} key={todo.id} todo={todo} />
                 ))}
               </tbody>
             </table>

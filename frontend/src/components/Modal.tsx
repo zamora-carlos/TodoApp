@@ -5,6 +5,7 @@ import { addTodoAsync, updateTodoAsync } from '../redux/todosSlice';
 import { hideModal } from '../redux/modalSlice';
 import type { AppDispatch, RootState } from '../redux/store';
 import type TodoPayload from '../types/TodoPayload';
+import { TbTriangleInvertedFilled } from 'react-icons/tb';
 
 type ModalProps = {
   setToast: React.Dispatch<
@@ -211,24 +212,30 @@ function Modal({ setToast }: ModalProps) {
           <label htmlFor="todo-priority" className="text-slate-600">
             Priority
           </label>
-          <select
-            id="todo-priority"
-            value={todo.priority}
-            className="text-slate-600 py-2 px-4 mt-1 bg-transparent border border-slate-300 rounded-lg w-72 max-w-full browser-appearance-none focus-visible:ring-2 ring-slate-300"
-            onChange={evt =>
-              setTodo(prevTodo => {
-                const priority = evt.target.value as 'LOW' | 'MEDIUM' | 'HIGH';
-                return { ...prevTodo, priority };
-              })
-            }
-          >
-            <option value="LOW">Low</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="HIGH">High</option>
-          </select>
-          {errors.priority && (
-            <p className="text-red-300 text-sm">{errors.priority}</p>
-          )}
+          <div className="relative w-72 max-w-full group">
+            <select
+              id="todo-priority"
+              value={todo.priority}
+              className="text-slate-600 py-2 px-4 mt-1 bg-transparent border border-slate-300 rounded-lg w-full browser-appearance-none focus-visible:ring-2 ring-slate-300 cursor-pointer"
+              onChange={evt =>
+                setTodo(prevTodo => {
+                  const priority = evt.target.value as
+                    | 'LOW'
+                    | 'MEDIUM'
+                    | 'HIGH';
+                  return { ...prevTodo, priority };
+                })
+              }
+            >
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
+            </select>
+            {errors.priority && (
+              <p className="text-red-300 text-sm">{errors.priority}</p>
+            )}
+            <TbTriangleInvertedFilled className="select-icon" />
+          </div>
         </div>
 
         <div className="flex flex-col mt-4">
