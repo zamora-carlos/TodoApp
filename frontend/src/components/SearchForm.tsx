@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
-import Filter from '../types/Filter';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../redux/store';
 import { updateFilter } from '../redux/viewOptionsSlice';
-import { getTodosAsync } from '../redux/todosSlice';
+import { changePageAsync } from '../redux/todosSlice';
+import type Filter from '../types/Filter';
+import type { AppDispatch } from '../redux/store';
 
 function SearchForm() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -24,7 +24,7 @@ function SearchForm() {
     };
 
     dispatch(updateFilter(filter));
-    dispatch(getTodosAsync());
+    dispatch(changePageAsync(1));
   };
 
   return (
@@ -36,25 +36,33 @@ function SearchForm() {
         onSubmit={handleSubmitForm}
       >
         <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
-          <label className="text-base text-slate-700 font-medium min-w-16">
+          <label
+            htmlFor="text-search"
+            className="text-base text-slate-700 font-medium min-w-16"
+          >
             Name
           </label>
           <input
+            id="text-search"
             type="text"
             placeholder="Search..."
             value={searchTerm}
             onChange={evt => setSearchTerm(evt.target.value)}
-            className="py-2 px-4 border border-slate-400 rounded-lg w-full lg:max-w-3xl"
+            className="py-2 px-4 border border-slate-300 rounded-lg w-full lg:max-w-3xl"
           />
         </div>
 
         <div className="flex flex-col gap-1 sm:flex-row sm:items-center mt-3">
-          <label className="text-base text-slate-700 font-medium min-w-16">
+          <label
+            htmlFor="priority-select"
+            className="text-base text-slate-700 font-medium min-w-16"
+          >
             Priority
           </label>
           <div className="relative w-full sm:w-48 md:w-56 lg:w-64 group">
             <select
-              className="text-slate-700 py-2 pl-4 pr-8 bg-transparent border border-slate-400 rounded-lg w-full lg:w-64 browser-appearance-none"
+              id="priority-select"
+              className="select text-slate-700 py-2 pl-4 pr-8 w-full lg:w-64"
               onChange={evt => setPriority(evt.target.value)}
             >
               <option value="ALL">All</option>
@@ -63,18 +71,22 @@ function SearchForm() {
               <option value="HIGH">High</option>
             </select>
 
-            <TbTriangleInvertedFilled className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-400 text-xs group-hover:text-slate-500 transition-colors-duration-200" />
+            <TbTriangleInvertedFilled className="select-icon" />
           </div>
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center mt-3">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
-            <label className="text-base text-slate-700 font-medium min-w-16">
-              State
+            <label
+              htmlFor="status-select"
+              className="text-base text-slate-700 font-medium min-w-16"
+            >
+              Status
             </label>
             <div className="relative w-full sm:w-48 md:w-56 lg:w-64 group">
               <select
-                className="text-slate-700 py-2 pl-4 pr-8 bg-transparent border border-slate-400 rounded-lg w-full lg:w-64 browser-appearance-none"
+                id="status-select"
+                className="select text-slate-700 py-2 pl-4 pr-8 w-full lg:w-64"
                 onChange={evt => setDone(evt.target.value)}
               >
                 <option value="ALL">All</option>
@@ -82,13 +94,13 @@ function SearchForm() {
                 <option value="UNDONE">Undone</option>
               </select>
 
-              <TbTriangleInvertedFilled className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-400 text-xs group-hover:text-slate-500 transition-colors-duration-200" />
+              <TbTriangleInvertedFilled className="select-icon" />
             </div>
           </div>
 
           <button
             type="submit"
-            className="text-base text-slate-700 font-medium py-2 px-4 inline-block border border-slate-400 rounded-lg cursor-pointer w-full sm:max-w-2xs sm:ml-auto hover:bg-slate-100"
+            className="text-base text-slate-700 font-medium py-2 px-4 inline-block border border-slate-300 rounded-lg cursor-pointer w-full sm:max-w-2xs sm:ml-auto hover:bg-slate-100"
           >
             <p className="flex items-center gap-2 justify-center">
               Search

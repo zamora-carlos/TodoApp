@@ -8,7 +8,7 @@
 
 @layer components {
   .checkbox {
-    --highlight-color: var(--color-indigo-500);
+    --highlight-color: var(--color-indigo-400);
 
     @apply browser-appearance-none grid place-content-center m-0 bg-transparent text-current border border-current rounded-md;
     font: inherit;
@@ -21,7 +21,8 @@
   .checkbox::before {
     content: '';
     background-color: CanvasText;
-    @apply w-[0.65em] h-[0.65em];
+    width: 0.55em;
+    height: 0.55em;
     transform: scale(0);
     transition: transform 150ms ease-in-out;
     box-shadow: inset 1em 1em var(--highlight-color);
@@ -36,6 +37,10 @@
   .checkbox:focus {
     outline: 2px solid var(--highlight-color);
     outline-offset: 1px;
+  }
+
+  .select {
+    @apply bg-transparent border border-slate-300 rounded-lg browser-appearance-none cursor-pointer;
   }
 
   .select-icon {

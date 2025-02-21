@@ -1,8 +1,8 @@
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
 import PaginationButton from './PaginationButton';
-import { AppDispatch } from '../redux/store';
 import { changePageAsync } from '../redux/todosSlice';
+import type { AppDispatch } from '../redux/store';
 
 type PaginationProps = {
   page: number;
@@ -33,7 +33,10 @@ function Pagination({ page, maxPage }: PaginationProps) {
     isDisabled ? 'text-slate-400' : 'text-slate-700';
 
   return (
-    <div className="flex gap-1">
+    <div className="flex items-center gap-1">
+      <span className="text-slate-500 mr-2">
+        Page {page} of {maxPage}
+      </span>
       <PaginationButton
         isActive={false}
         isDisabled={page === 1}
