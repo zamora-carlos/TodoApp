@@ -4,7 +4,7 @@ import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { AppDispatch, RootState } from '../redux/store';
 import {
   getTodosAsync,
@@ -13,24 +13,19 @@ import {
   changePageSizeAsync,
 } from '../redux/todosSlice';
 import SortCriteria from '../types/SortCriteria';
-import { updateSortCriteria } from '../redux/viewOptionsSlice';
 import { showCreateModal, showEditModal } from '../redux/modalSlice';
+import { updateSortBy } from '../redux/viewOptionsSlice';
 
 function TodoList() {
   const dispatch = useDispatch<AppDispatch>();
-
+  const { sortBy, order } = useSelector(
+    (state: RootState) => state.viewOptions.sortCriteria
+  );
   const pagination = useSelector((state: RootState) => state.todos);
-  const [sortBy, setSortBy] = useState<SortCriteria['sortBy']>('TEXT');
-  const [order, setOrder] = useState<SortCriteria['order']>('ASC');
 
   useEffect(() => {
     dispatch(getTodosAsync());
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(updateSortCriteria({ sortBy, order }));
-    dispatch(getTodosAsync());
-  }, [dispatch, sortBy, order]);
 
   const handleDeleteTodo = (id: number) => {
     dispatch(deleteTodoAsync(id));
@@ -51,15 +46,9 @@ function TodoList() {
   }
 
   const handleUpdateSorting = (newSortBy: string) => {
-    if (!isValidSortBy(newSortBy)) {
-      return;
-    }
-
-    if (newSortBy === sortBy) {
-      setOrder(prevOrder => (prevOrder === 'ASC' ? 'DESC' : 'ASC'));
-    } else {
-      setSortBy(newSortBy);
-      setOrder('ASC');
+    if (isValidSortBy(newSortBy)) {
+      dispatch(updateSortBy(newSortBy));
+      dispatch(getTodosAsync());
     }
   };
 
