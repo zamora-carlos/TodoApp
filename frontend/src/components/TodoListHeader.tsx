@@ -5,26 +5,26 @@ import { getTodosAsync } from '../redux/todosSlice';
 import type { AppDispatch, RootState } from '../redux/store';
 import type SortCriteria from '../types/SortCriteria';
 
+const columnsData: Record<
+  SortCriteria['sortBy'],
+  { columnName: string; className: string }
+> = {
+  TEXT: { columnName: 'Name', className: '' },
+  PRIORITY: {
+    columnName: 'Priority',
+    className: 'w-28 md:w-32 lg:w-36',
+  },
+  DUE_DATE: {
+    columnName: 'Due date',
+    className: 'w-44 sm:w-48 md:w-52 lg:w-56 xl:w-60',
+  },
+};
+
 function TodoListHeader() {
   const dispatch = useDispatch<AppDispatch>();
   const { sortBy, order } = useSelector(
     (state: RootState) => state.viewOptions.sortCriteria
   );
-
-  const columnsData: Record<
-    SortCriteria['sortBy'],
-    { columnName: string; className: string }
-  > = {
-    TEXT: { columnName: 'Name', className: '' },
-    PRIORITY: {
-      columnName: 'Priority',
-      className: 'w-28 md:w-32 lg:w-36',
-    },
-    DUE_DATE: {
-      columnName: 'Due date',
-      className: 'w-44 sm:w-48 md:w-52 lg:w-56 xl:w-60',
-    },
-  };
 
   const handleUpdateSorting = (columnName: SortCriteria['sortBy']) => {
     dispatch(updateSortBy(columnName));
