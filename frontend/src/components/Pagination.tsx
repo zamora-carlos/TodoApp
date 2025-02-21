@@ -1,5 +1,6 @@
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
+import PaginationButton from './PaginationButton';
 import { AppDispatch } from '../redux/store';
 import { changePageAsync } from '../redux/todosSlice';
 
@@ -12,49 +13,51 @@ function Pagination({ page, maxPage }: PaginationProps) {
   const dispatch = useDispatch<AppDispatch>();
   let pageNumbers: number[];
 
-  if (page != 1 && page != maxPage) {
+  if (page !== 1 && page !== maxPage) {
     pageNumbers = [page - 1, page, page + 1];
-  } else if (page == 1) {
+  } else if (page === 1) {
     pageNumbers = [page, page + 1, page + 2];
   } else {
     pageNumbers = [page - 2, page - 1, page];
   }
 
-  pageNumbers = pageNumbers.filter(x => x > 0 && x <= maxPage);
+  pageNumbers = pageNumbers.filter(
+    pageNum => pageNum > 0 && pageNum <= maxPage
+  );
 
   const handleClickPaginationButton = (pageNumber: number) => {
     dispatch(changePageAsync(pageNumber));
   };
 
+  const getButtonClass = (isDisabled: boolean) =>
+    isDisabled ? 'text-slate-400' : 'text-slate-700';
+
   return (
     <div className="flex gap-1">
-      <button
-        disabled={1 === page}
+      <PaginationButton
+        isActive={false}
+        isDisabled={page === 1}
         onClick={() => handleClickPaginationButton(1)}
-        className="flex items-center justify-center w-10 h-10 text-slate-700 hover:border hover:border-slate-300 rounded-xl cursor-pointer hover:bg-slate-100"
       >
-        <HiChevronDoubleLeft />
-      </button>
+        <HiChevronDoubleLeft className={getButtonClass(page === 1)} />
+      </PaginationButton>
       {pageNumbers.map(currPage => (
-        <button
+        <PaginationButton
           key={currPage}
-          className={
-            'flex items-center justify-center w-10 h-10 text-slate-700 hover:border hover:border-slate-300 rounded-xl cursor-pointer hover:bg-slate-100' +
-            (currPage === page ? ' border border-slate-300 bg-slate-50' : '')
-          }
-          disabled={currPage === page}
+          isActive={currPage === page}
+          isDisabled={currPage === page}
           onClick={() => handleClickPaginationButton(currPage)}
         >
           {currPage}
-        </button>
+        </PaginationButton>
       ))}
-      <button
-        disabled={maxPage === page}
+      <PaginationButton
+        isActive={false}
+        isDisabled={page === maxPage}
         onClick={() => handleClickPaginationButton(maxPage)}
-        className="flex items-center justify-center w-10 h-10 text-slate-700 hover:border hover:border-slate-300 rounded-xl cursor-pointer hover:bg-slate-100"
       >
-        <HiChevronDoubleRight />
-      </button>
+        <HiChevronDoubleRight className={getButtonClass(page === maxPage)} />
+      </PaginationButton>
     </div>
   );
 }
