@@ -1,11 +1,13 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoClose } from 'react-icons/io5';
+import DatePicker from 'react-datepicker';
 import { addTodoAsync, updateTodoAsync } from '../redux/todosSlice';
 import { hideModal } from '../redux/modalSlice';
 import type { AppDispatch, RootState } from '../redux/store';
 import type TodoPayload from '../types/TodoPayload';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
+import 'react-datepicker/dist/react-datepicker.css';
 
 type ModalProps = {
   setToast: React.Dispatch<
@@ -14,6 +16,16 @@ type ModalProps = {
       type: 'success' | 'error';
     } | null>
   >;
+};
+
+const formatDate = (date: Date) => {
+  const result =
+    date
+      .toISOString()
+      .replace(/\.\d{3}/, '')
+      .replace('Z', '.') + '000000';
+  console.log(result);
+  return result;
 };
 
 function Modal({ setToast }: ModalProps) {
@@ -28,8 +40,9 @@ function Modal({ setToast }: ModalProps) {
   const [todo, setTodo] = useState<TodoPayload>({
     text: '',
     priority: 'LOW',
-    dueDate: null,
+    dueDate: '',
   });
+  const [date, setDate] = useState<Date | null>(new Date());
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isFadingOut, setIsFadingOut] = useState(false);
 
@@ -47,6 +60,7 @@ function Modal({ setToast }: ModalProps) {
         priority: 'LOW',
         dueDate: null,
       });
+      setDate(new Date());
 
       dispatch(hideModal());
       setIsFadingOut(false);
@@ -93,8 +107,11 @@ function Modal({ setToast }: ModalProps) {
     setTodo({
       text: existingTodo?.text || '',
       priority: existingTodo?.priority || 'LOW',
-      dueDate: existingTodo?.dueDate || null,
+      dueDate: existingTodo?.dueDate || formatDate(new Date()),
     });
+    setDate(
+      existingTodo?.dueDate ? new Date(existingTodo.dueDate) : new Date()
+    );
   }, [existingTodo]);
 
   const validateForm = () => {
@@ -253,16 +270,18 @@ function Modal({ setToast }: ModalProps) {
             </label>
           </div>
           {hasDueDate && (
-            <input
+            <DatePicker
               className="text-slate-600 p-2 mt-1 border border-slate-300 rounded-lg w-72 max-w-full"
-              type="datetime-local"
-              value={todo.dueDate ?? Date.now()}
-              onChange={evt =>
+              showTimeSelect
+              selected={date}
+              filterDate={date => new Date() < date}
+              onChange={date => {
                 setTodo(prevTodo => ({
                   ...prevTodo,
-                  dueDate: evt.target.value,
-                }))
-              }
+                  dueDate: date ? formatDate(date) : formatDate(new Date()),
+                }));
+                setDate(date);
+              }}
             />
           )}
           {errors.dueDate && (
