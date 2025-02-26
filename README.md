@@ -13,7 +13,9 @@ This project is a front-end application that consumes an API and serves as an in
 
 ### Prerequisites
 
-Make sure you have Node.js and git installed
+Make sure you have Node.js and Git installed.
+You also need to have the backend running on port 9090, as the frontend depends on it for managing todos.
+For detailed setup instructions, visit [TodoApp-Backend](https://github.com/zamora-carlos/TodoApp-Backend).
 
 ### Setup
 
@@ -42,7 +44,7 @@ Start the development server:
 npm run dev
 ```
 
-The application will start the application at http://localhost:8080.
+The application will start at http://localhost:8080.
 
 ## Features
 
@@ -73,7 +75,7 @@ TodoApp/
 │── src/
 │   ├── components/      # UI components
 │   ├── redux/           # Redux store and slices
-│   ├── types/           # TypeScript interfaces
+│   ├── types/           # TypeScript types
 │   ├── services/        # API requests to backend
 │   ├── utils/           # Utility functions
 │   ├── App.tsx          # Main application component
