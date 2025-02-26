@@ -1,11 +1,9 @@
 import Pagination from './Pagination';
-import type PaginatedResponse from '../types/PaginatedResponse';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../redux/store';
 
-interface TodoListPaginationInfoProps {
-  pagination: PaginatedResponse;
-}
-
-function TodoListPaginationInfo({ pagination }: TodoListPaginationInfoProps) {
+function TodoListPaginationInfo() {
+  const pagination = useSelector((state: RootState) => state.todos);
   let paginationMessage = '';
 
   if (pagination.totalItems > 0) {

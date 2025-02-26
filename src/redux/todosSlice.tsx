@@ -29,12 +29,15 @@ export const getTodosAsync = createAsyncThunk<
   PaginatedTodosResponse,
   void,
   { state: RootState }
->('todos/fetchTodos', async (_, { getState, rejectWithValue }) => {
+>('todos/fetchTodos', async (_, thunkAPI) => {
   try {
-    const queryParams = buildQueryParams(getState());
-    return await todosApiService.fetchTodos(queryParams);
+    const queryParams = buildQueryParams(thunkAPI.getState());
+    const paginatedResponse = await todosApiService.fetchTodos(queryParams);
+    thunkAPI.dispatch(changePage(paginatedResponse.currentPage));
+
+    return paginatedResponse;
   } catch (error) {
-    return rejectWithValue((error as Error).message);
+    return thunkAPI.rejectWithValue((error as Error).message);
   }
 });
 
@@ -72,14 +75,6 @@ export const deleteTodoAsync = createAsyncThunk<
 >('todos/deleteTodoAsync', async (id, thunkAPI) => {
   try {
     await todosApiService.deleteTodo(id);
-
-    const { todos } = thunkAPI.getState();
-
-    // If we are on the last page and there is only one todo
-    if (todos.content.length === 1) {
-      thunkAPI.dispatch(changePage(todos.currentPage - 1));
-    }
-
     thunkAPI.dispatch(getTodosAsync());
     thunkAPI.dispatch(getMetricsAsync());
   } catch {
