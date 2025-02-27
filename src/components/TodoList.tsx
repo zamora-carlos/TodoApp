@@ -52,7 +52,7 @@ function TodoList({ setToast }: TodoListProps) {
         </div>
       )}
 
-      <TodoListPaginationInfo pagination={pagination} />
+      <TodoListPaginationInfo />
     </section>
   );
 }
