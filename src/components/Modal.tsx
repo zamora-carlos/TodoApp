@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { IoClose } from 'react-icons/io5';
 import DatePicker from 'react-datepicker';
+import Select from './common/Select';
 import { addTodoAsync, updateTodoAsync } from '../redux/todosSlice';
 import { hideModal } from '../redux/modalSlice';
+import { PRIORITY } from '../constants/priority';
 import type { AppDispatch, RootState } from '../redux/store';
 import type { TodoPayload } from '../types/todoPayload';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -208,14 +209,12 @@ function Modal({ setToast }: ModalProps) {
           {modalState.todoId !== null ? 'Updated todo' : 'Create todo'}
         </h2>
 
-        <div className="flex flex-col mt-4">
-          <label htmlFor="todo-text" className="text-slate-600">
-            Name
-          </label>
+        <div className="flex flex-col mt-4 text-slate-700">
+          <label htmlFor="todo-text">Name</label>
           <input
             id="todo-text"
             type="text"
-            className="py-2 px-4 mt-1 text-slate-600 bg-white border border-slate-300 rounded-lg focus-visible:ring-2 ring-slate-300"
+            className="py-2 px-4 mt-1 bg-white border border-slate-300 rounded-lg"
             placeholder="Your todo..."
             value={todo.text}
             onChange={evt =>
@@ -225,35 +224,18 @@ function Modal({ setToast }: ModalProps) {
           {errors.text && <p className="text-red-300 text-sm">{errors.text}</p>}
         </div>
 
-        <div className="flex flex-col mt-4">
-          <label htmlFor="todo-priority" className="text-slate-600">
-            Priority
-          </label>
-          <div className="relative w-72 max-w-full group">
-            <select
-              id="todo-priority"
-              value={todo.priority}
-              className="text-slate-600 py-2 px-4 mt-1 bg-transparent border border-slate-300 rounded-lg w-full browser-appearance-none focus-visible:ring-2 ring-slate-300 cursor-pointer"
-              onChange={evt =>
-                setTodo(prevTodo => {
-                  const priority = evt.target.value as
-                    | 'LOW'
-                    | 'MEDIUM'
-                    | 'HIGH';
-                  return { ...prevTodo, priority };
-                })
-              }
-            >
-              <option value="LOW">Low</option>
-              <option value="MEDIUM">Medium</option>
-              <option value="HIGH">High</option>
-            </select>
-            {errors.priority && (
-              <p className="text-red-300 text-sm">{errors.priority}</p>
-            )}
-            <TbTriangleInvertedFilled className="select-icon" />
-          </div>
-        </div>
+        <Select
+          id="todo-select"
+          label="Priority"
+          value={todo.priority}
+          options={Object.values(PRIORITY)}
+          onChange={value =>
+            setTodo(prevTodo => ({ ...prevTodo, priority: value }))
+          }
+          containerClassName="flex flex-col mt-4 text-slate-600"
+          selectWrapperClassName="w-72 max-w-full"
+          errorMessage={errors.priority}
+        />
 
         <div className="flex flex-col mt-4">
           <div className="flex items-center">

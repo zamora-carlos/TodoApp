@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { updateSortBy, updateFilter } from './viewOptionsSlice';
-import { getTodosAsync, changePage } from './todosSlice';
+import { getTodosAsync, changePageAsync } from './todosSlice';
 import type { RootState } from './store';
-import type { SortCriteria } from '../types/sortCriteria';
 import type { Filter } from '../types/filter';
+import type { SortBy } from '../types/sortBy';
 
 export const updateSortAndFetchTodosAsync = createAsyncThunk<
   void,
-  SortCriteria['sortBy'],
+  SortBy,
   { state: RootState }
 >('shared/updateSortAndFetchTodos', async (columnName, thunkAPI) => {
   thunkAPI.dispatch(updateSortBy(columnName));
@@ -18,7 +18,7 @@ export const updateFilterAndChangePageAsync = createAsyncThunk<
   void,
   Filter,
   { state: RootState }
->('shared/updateFilterAndChangePage', async (filter, thunkAPI) => {
+>('shared/updateFilterAndChangePageAsync', async (filter, thunkAPI) => {
   thunkAPI.dispatch(updateFilter(filter));
-  thunkAPI.dispatch(changePage(1));
+  thunkAPI.dispatch(changePageAsync(1));
 });
