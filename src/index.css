@@ -44,7 +44,7 @@ body {
   }
 
   .select {
-    @apply bg-transparent border border-slate-300 rounded-lg browser-appearance-none cursor-pointer;
+    @apply w-full py-2 pl-4 pr-8 bg-transparent border border-slate-300 rounded-lg browser-appearance-none cursor-pointer;
   }
 
   .select-icon {
