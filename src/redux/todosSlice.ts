@@ -6,11 +6,11 @@ import {
 import { getMetricsAsync } from './metricsSlice';
 import todosApiService from '../services/todosApiService';
 import buildQueryParams from '../utils/buildQueryParams';
-import type PaginatedTodosResponse from '../types/PaginatedResponse';
-import type TodoPayload from '../types/TodoPayload';
+import type { PaginatedResponse } from '../types/PaginatedResponse';
+import type { TodoPayload } from '../types/TodoPayload';
 import type { RootState } from './store';
 
-export type TodosState = PaginatedTodosResponse & {
+export type TodosState = PaginatedResponse & {
   loading: boolean;
   error: string | null;
 };
@@ -26,7 +26,7 @@ const initialState: TodosState = {
 };
 
 export const getTodosAsync = createAsyncThunk<
-  PaginatedTodosResponse,
+  PaginatedResponse,
   void,
   { state: RootState }
 >('todos/fetchTodos', async (_, thunkAPI) => {
@@ -146,7 +146,7 @@ const todosSlice = createSlice({
       })
       .addCase(
         getTodosAsync.fulfilled,
-        (state, action: PayloadAction<PaginatedTodosResponse>) => {
+        (state, action: PayloadAction<PaginatedResponse>) => {
           state.loading = false;
           state.content = action.payload.content;
           state.totalPages = action.payload.totalPages;

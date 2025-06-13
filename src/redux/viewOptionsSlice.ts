@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type SortCriteria from '../types/SortCriteria';
-import type Filter from '../types/Filter';
+import type { Filter } from '../types/Filter';
+import type { SortBy } from '../types/SortBy';
+import type { SortCriteria } from '../types/SortCriteria';
 
 export type ViewOptionsState = {
   sortCriteria: SortCriteria;
@@ -23,10 +24,7 @@ const viewOptionsSlice = createSlice({
   name: 'viewOptions',
   initialState,
   reducers: {
-    updateSortBy: (
-      state,
-      action: PayloadAction<'TEXT' | 'PRIORITY' | 'DUE_DATE'>
-    ) => {
+    updateSortBy: (state, action: PayloadAction<SortBy>) => {
       if (state.sortCriteria.sortBy === action.payload) {
         state.sortCriteria.order =
           state.sortCriteria.order === 'ASC' ? 'DESC' : 'ASC';

@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { HiPencil, HiTrash } from 'react-icons/hi2';
 import Checkbox from './Checkbox';
 import Table from './common/Table';
-import { HiPencil, HiTrash } from 'react-icons/hi2';
-
 import { showEditModal } from '../redux/modalSlice';
 import {
   deleteTodoAsync,
@@ -11,14 +10,12 @@ import {
   toggleTodoAsync,
 } from '../redux/todosSlice';
 import { updateSortAndFetchTodosAsync } from '../redux/thunks';
-
 import formatDateString from '../utils/formatDateString';
 import getDueDateColor from '../utils/getDueDateColor';
-
 import type { AppDispatch, RootState } from '../redux/store';
-import type Todo from '../types/TodoResponse';
+import type { TodoResponse as Todo } from '../types/TodoResponse';
 import type { TableColumn } from '../types/Table';
-import type SortCriteria from '../types/SortCriteria';
+import type { SortCriteria } from '../types/SortCriteria';
 
 const TodosTable = () => {
   const dispatch = useDispatch<AppDispatch>();

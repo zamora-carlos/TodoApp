@@ -1,9 +1,9 @@
-type TodoResponse = {
+import { Priority } from './Priority';
+
+export type TodoResponse = {
   id: number;
   text: string;
-  priority: 'LOW' | 'MEDIUM' | 'HIGH';
+  priority: Priority;
   done: boolean;
   dueDate: string | null;
 };
-
-export default TodoResponse;

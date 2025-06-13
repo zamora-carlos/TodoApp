@@ -3,12 +3,9 @@ import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 import { updateSortBy } from '../redux/viewOptionsSlice';
 import { getTodosAsync } from '../redux/todosSlice';
 import type { AppDispatch, RootState } from '../redux/store';
-import type SortCriteria from '../types/SortCriteria';
+import type { SortBy } from '../types/SortBy';
 
-const columnsData: Record<
-  SortCriteria['sortBy'],
-  { columnName: string; className: string }
-> = {
+const columnsData: Record<SortBy, { columnName: string; className: string }> = {
   TEXT: { columnName: 'Name', className: '' },
   PRIORITY: {
     columnName: 'Priority',
@@ -26,12 +23,12 @@ function TodoListHeader() {
     (state: RootState) => state.viewOptions.sortCriteria
   );
 
-  const handleUpdateSorting = (columnName: SortCriteria['sortBy']) => {
+  const handleUpdateSorting = (columnName: SortBy) => {
     dispatch(updateSortBy(columnName));
     dispatch(getTodosAsync());
   };
 
-  const getArrowClasses = (columnName: SortCriteria['sortBy']) => ({
+  const getArrowClasses = (columnName: SortBy) => ({
     up:
       sortBy === columnName && order === 'ASC'
         ? 'text-indigo-500'
@@ -42,7 +39,7 @@ function TodoListHeader() {
         : 'text-slate-300',
   });
 
-  const getOppositeOrder = (columnName: SortCriteria['sortBy']) => {
+  const getOppositeOrder = (columnName: SortBy) => {
     return sortBy === columnName && order === 'ASC'
       ? 'descending'
       : 'ascending';
@@ -57,7 +54,7 @@ function TodoListHeader() {
 
         {Object.entries(columnsData).map(
           ([columnKey, { columnName, className }]) => {
-            const typedColumnKey = columnKey as SortCriteria['sortBy'];
+            const typedColumnKey = columnKey as SortBy;
 
             return (
               <th

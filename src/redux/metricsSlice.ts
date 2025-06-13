@@ -4,7 +4,7 @@ import {
   type PayloadAction,
 } from '@reduxjs/toolkit';
 import todosApiService from '../services/todosApiService';
-import type Metrics from '../types/Metrics';
+import type { Metrics } from '../types/Metrics';
 import type { RootState } from './store';
 
 export type MetricsState = Metrics & {

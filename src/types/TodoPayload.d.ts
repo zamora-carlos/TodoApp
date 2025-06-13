@@ -1,7 +1,7 @@
-type TodoPayload = {
+import type { Priority } from './Priority';
+
+export type TodoPayload = {
   text: string;
-  priority: 'LOW' | 'MEDIUM' | 'HIGH';
+  priority: Priority;
   dueDate: string | null;
 };
-
-export default TodoPayload;

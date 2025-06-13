@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { IoClose } from 'react-icons/io5';
 import DatePicker from 'react-datepicker';
 import { addTodoAsync, updateTodoAsync } from '../redux/todosSlice';
 import { hideModal } from '../redux/modalSlice';
 import type { AppDispatch, RootState } from '../redux/store';
-import type TodoPayload from '../types/TodoPayload';
-import { TbTriangleInvertedFilled } from 'react-icons/tb';
+import type { TodoPayload } from '../types/TodoPayload';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type ModalProps = {

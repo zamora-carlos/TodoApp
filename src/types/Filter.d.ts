@@ -1,7 +1,7 @@
-type Filter = {
+import type { Priority } from './Priority';
+
+export type Filter = {
   name: string | null;
-  priority: 'LOW' | 'MEDIUM' | 'HIGH' | null;
+  priority: Priority | null;
   done: boolean | null;
 };
-
-export default Filter;

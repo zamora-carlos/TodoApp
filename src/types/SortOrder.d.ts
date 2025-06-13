@@ -1,3 +1,1 @@
-type SortOrder = 'ASC' | 'DESC';
-
-export default SortOrder;
+export type SortOrder = 'ASC' | 'DESC';

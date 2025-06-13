@@ -1,8 +1,7 @@
-import type SortOrder from './SortOrder';
+import { SortBy } from './SortBy';
+import type { SortOrder } from './SortOrder';
 
-type SortCriteria = {
-  sortBy: 'TEXT' | 'PRIORITY' | 'DUE_DATE';
+export type SortCriteria = {
+  sortBy: SortBy;
   order: SortOrder;
 };
-
-export default SortCriteria;

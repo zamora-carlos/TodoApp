@@ -1,11 +1,9 @@
-import TodoResponse from './TodoResponse';
+import type { TodoResponse } from './TodoResponse';
 
-type PaginatedResponse = {
+export type PaginatedResponse = {
   content: TodoResponse[];
   currentPage: number;
   totalPages: number;
   pageSize: number;
   totalItems: number;
 };
-
-export default PaginatedResponse;

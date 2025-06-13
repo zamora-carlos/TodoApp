@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { updateSortBy, updateFilter } from './viewOptionsSlice';
 import { getTodosAsync, changePage } from './todosSlice';
 import type { RootState } from './store';
-import type SortCriteria from '../types/SortCriteria';
-import type Filter from '../types/Filter';
+import type { SortCriteria } from '../types/SortCriteria';
+import type { Filter } from '../types/Filter';
 
 export const updateSortAndFetchTodosAsync = createAsyncThunk<
   void,
