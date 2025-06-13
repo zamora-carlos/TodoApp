@@ -1,5 +1,6 @@
 import React, { JSX, useCallback } from 'react';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
+import { SORT_ORDER } from '../../constants/sortOrder';
 import type { TableColumn, SortColumn } from '../../types/table';
 
 type SortableHeaderCellProps<TData> = {
@@ -21,25 +22,38 @@ function SortableHeaderCellInner<TData>({
     onSort(column);
   }, [onSort, column]);
 
-  const ariaOrder =
-    isSorted && sortColumn.order === 'ASC' ? 'descending' : 'ascending';
+  const ariaSort = isSorted
+    ? sortColumn.order === SORT_ORDER.ASC
+      ? 'ascending'
+      : 'descending'
+    : 'none';
 
   return (
     <th
       onClick={handleClick}
       className={`table-cell cursor-pointer ${isFirst ? '' : 'border-l'} ${column.className}`}
       role="button"
-      aria-label={`Sort by ${column.label} in ${ariaOrder} order`}
+      aria-label={`Sort by ${column.label} in ${ariaSort} order`}
+      aria-sort={ariaSort}
       scope="col"
+      tabIndex={0}
     >
       <div className="flex items-center gap-1">
         {column.label}
         <div className="flex flex-col">
           <GoTriangleUp
-            className={`w-5 h-auto ${isSorted && sortColumn.order === 'ASC' ? 'text-indigo-500' : 'text-slate-300'}`}
+            className={`w-5 h-auto ${
+              isSorted && sortColumn.order === SORT_ORDER.ASC
+                ? 'text-indigo-500'
+                : 'text-slate-300'
+            }`}
           />
           <GoTriangleDown
-            className={`w-5 h-auto -mt-3 ${isSorted && sortColumn.order === 'DESC' ? 'text-indigo-500' : 'text-slate-300'}`}
+            className={`w-5 h-auto -mt-3 ${
+              isSorted && sortColumn.order === SORT_ORDER.DESC
+                ? 'text-indigo-500'
+                : 'text-slate-300'
+            }`}
           />
         </div>
       </div>

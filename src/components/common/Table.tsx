@@ -17,17 +17,15 @@ function TableComponent<TData extends { id: string | number }>({
   onSort,
 }: TableProps<TData>) {
   return (
-    <div className="overflow-x-auto w-full">
-      <div className="border border-slate-300 rounded-2xl overflow-hidden mt-2 min-w-2xl">
-        <table className="table-fixed w-full">
-          <TableHeader
-            columns={columns}
-            sortColumn={sortColumn}
-            onSort={onSort}
-          />
-          <TableBody columns={columns} data={data} />
-        </table>
-      </div>
+    <div className="border border-slate-300 rounded-2xl overflow-auto mt-2">
+      <table className="table-fixed min-w-2xl w-full">
+        <TableHeader
+          columns={columns}
+          sortColumn={sortColumn}
+          onSort={onSort}
+        />
+        <TableBody columns={columns} data={data} />
+      </table>
     </div>
   );
 }

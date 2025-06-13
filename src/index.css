@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+body {
+  @apply overflow-x-hidden;
+}
+
 @utility browser-appearance-none {
   -webkit-appearance: none;
   -moz-appearance: none;
