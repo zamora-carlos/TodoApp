@@ -1,5 +1,5 @@
-import { SortBy } from './SortBy';
-import type { SortOrder } from './SortOrder';
+import type { SortBy } from './sortBy';
+import type { SortOrder } from './sortOrder';
 
 export type SortCriteria = {
   sortBy: SortBy;

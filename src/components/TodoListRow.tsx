@@ -5,7 +5,7 @@ import { deleteTodoAsync, toggleTodoAsync } from '../redux/todosSlice';
 import { showEditModal } from '../redux/modalSlice';
 import formatDateString from '../utils/formatDateString';
 import getDueDateColor from '../utils/getDueDateColor';
-import type { TodoResponse } from '../types/TodoResponse';
+import type { TodoResponse } from '../types/todoResponse';
 import type { AppDispatch, RootState } from '../redux/store';
 
 type TodoListRowProps = {

@@ -1,2 +1,3 @@
-export const SORT_BY_VALUES = ['TEXT', 'PRIORITY', 'DUE_DATE'] as const;
-export type SortBy = (typeof SORT_BY_VALUES)[number];
+import { SORT_BY } from '../constants/sortBy';
+
+export type SortBy = (typeof SORT_BY)[keyof typeof SORT_BY];

@@ -1,4 +1,4 @@
-import type { SortOrder } from './SortOrder';
+import type { SortOrder } from './sortOrder';
 
 export type TableColumn<TData> = {
   label: string;

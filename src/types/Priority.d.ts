@@ -1,2 +1,3 @@
-export const PRIORITY_VALUES = ['LOW', 'MEDIUM', 'HIGH'] as const;
-export type Priority = (typeof PRIORITY_VALUES)[number];
+import { PRIORITY } from '../constants/priority';
+
+export type Priority = (typeof PRIORITY)[keyof typeof PRIORITY];

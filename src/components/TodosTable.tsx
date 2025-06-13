@@ -13,9 +13,9 @@ import { updateSortAndFetchTodosAsync } from '../redux/thunks';
 import formatDateString from '../utils/formatDateString';
 import getDueDateColor from '../utils/getDueDateColor';
 import type { AppDispatch, RootState } from '../redux/store';
-import type { TodoResponse as Todo } from '../types/TodoResponse';
-import type { TableColumn } from '../types/Table';
-import type { SortCriteria } from '../types/SortCriteria';
+import type { TodoResponse as Todo } from '../types/todoResponse';
+import type { TableColumn } from '../types/table';
+import type { SortCriteria } from '../types/sortCriteria';
 
 const TodosTable = () => {
   const dispatch = useDispatch<AppDispatch>();

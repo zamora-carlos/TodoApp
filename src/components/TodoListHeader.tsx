@@ -3,7 +3,7 @@ import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 import { updateSortBy } from '../redux/viewOptionsSlice';
 import { getTodosAsync } from '../redux/todosSlice';
 import type { AppDispatch, RootState } from '../redux/store';
-import type { SortBy } from '../types/SortBy';
+import type { SortBy } from '../types/sortBy';
 
 const columnsData: Record<SortBy, { columnName: string; className: string }> = {
   TEXT: { columnName: 'Name', className: '' },

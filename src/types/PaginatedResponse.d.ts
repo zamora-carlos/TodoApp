@@ -1,4 +1,4 @@
-import type { TodoResponse } from './TodoResponse';
+import type { TodoResponse } from './todoResponse';
 
 export type PaginatedResponse = {
   content: TodoResponse[];

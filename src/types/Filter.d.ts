@@ -1,4 +1,4 @@
-import type { Priority } from './Priority';
+import type { Priority } from './priority';
 
 export type Filter = {
   name: string | null;

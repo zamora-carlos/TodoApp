@@ -6,8 +6,8 @@ import {
 import { getMetricsAsync } from './metricsSlice';
 import todosApiService from '../services/todosApiService';
 import buildQueryParams from '../utils/buildQueryParams';
-import type { PaginatedResponse } from '../types/PaginatedResponse';
-import type { TodoPayload } from '../types/TodoPayload';
+import type { PaginatedResponse } from '../types/paginatedResponse';
+import type { TodoPayload } from '../types/todoPayload';
 import type { RootState } from './store';
 
 export type TodosState = PaginatedResponse & {

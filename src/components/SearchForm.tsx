@@ -4,7 +4,7 @@ import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import { updateFilter } from '../redux/viewOptionsSlice';
 import { changePageAsync } from '../redux/todosSlice';
-import type { Filter } from '../types/Filter';
+import type { Filter } from '../types/filter';
 import type { AppDispatch } from '../redux/store';
 
 function SearchForm() {

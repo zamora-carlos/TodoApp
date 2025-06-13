@@ -1,6 +1,6 @@
 import React, { JSX } from 'react';
 import SortableHeaderCell from './SortableHeaderCell';
-import type { TableColumn, SortColumn } from '../../types/Table';
+import type { TableColumn, SortColumn } from '../../types/table';
 
 type TableHeaderProps<TData> = {
   columns: TableColumn<TData>[];

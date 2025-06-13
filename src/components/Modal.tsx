@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 import { addTodoAsync, updateTodoAsync } from '../redux/todosSlice';
 import { hideModal } from '../redux/modalSlice';
 import type { AppDispatch, RootState } from '../redux/store';
-import type { TodoPayload } from '../types/TodoPayload';
+import type { TodoPayload } from '../types/todoPayload';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type ModalProps = {
