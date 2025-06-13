@@ -4,6 +4,7 @@ import Modal from './components/Modal';
 import SearchForm from './components/SearchForm';
 import TodoList from './components/TodoList';
 import Toast from './components/Toast';
+import TodosTable from './components/TodosTable';
 
 function App() {
   const [toast, setToast] = useState<{
@@ -18,6 +19,9 @@ function App() {
       </h1>
       <SearchForm />
       <TodoList setToast={setToast} />
+      <div style={{ marginBlock: '10rem' }}>
+        <TodosTable />
+      </div>
       <Metrics />
       <Modal setToast={setToast} />
 

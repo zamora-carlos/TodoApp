@@ -52,16 +52,16 @@ function TodoListRow({ todo, setToast }: TodoListRowProps) {
 
   return (
     <tr>
-      <td className="todo-table-cell border-l-0">
+      <td className="table-cell border-l-0">
         <Checkbox checked={todo.done} onChange={handleToggle} />
       </td>
       <td
-        className={`todo-table-cell ${todo.done ? 'line-through italic text-slate-500' : ''}`}
+        className={`table-cell ${todo.done ? 'line-through italic text-slate-500' : ''}`}
       >
         {todo.text}
       </td>
-      <td className="todo-table-cell">{priorityLabel}</td>
-      <td className="todo-table-cell">
+      <td className="table-cell">{priorityLabel}</td>
+      <td className="table-cell">
         {todo.dueDate && (
           <div className="flex items-center gap-2">
             {formatDateString(todo.dueDate)}
@@ -73,7 +73,7 @@ function TodoListRow({ todo, setToast }: TodoListRowProps) {
           </div>
         )}
       </td>
-      <td className="todo-table-cell border-r-0">
+      <td className="table-cell border-r-0">
         <div className="flex justify-center gap-2">
           <button
             onClick={() => dispatch(showEditModal(todo.id))}
