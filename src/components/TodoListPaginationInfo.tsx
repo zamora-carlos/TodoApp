@@ -1,28 +1,35 @@
+import { useDispatch, useSelector } from 'react-redux';
 import Pagination from './Pagination';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../redux/store';
+import { changePageAsync } from '../redux/todosSlice';
+import type { AppDispatch, RootState } from '../redux/store';
 
 function TodoListPaginationInfo() {
-  const pagination = useSelector((state: RootState) => state.todos);
-  let paginationMessage = '';
+  const dispatch = useDispatch<AppDispatch>();
+  const { currentPage, totalPages, pageSize, totalItems, content } =
+    useSelector((state: RootState) => state.todos);
 
-  if (pagination.totalItems > 0) {
-    const start = (pagination.currentPage - 1) * pagination.pageSize + 1;
-    const end =
-      (pagination.currentPage - 1) * pagination.pageSize +
-      pagination.content.length;
-    paginationMessage = `Showing ${start} to ${end} todos of ${pagination.totalItems}`;
-  }
+  const start = (currentPage - 1) * pageSize + 1;
+  const end = start + content.length - 1;
+
+  const handlePageChange = (page: number) => {
+    dispatch(changePageAsync(page));
+  };
 
   return (
     <div className="flex items-center justify-between mt-2">
-      <p className="text-base text-slate-500">
-        {paginationMessage && <span>{paginationMessage}</span>}
-      </p>
-      <Pagination
-        page={pagination.currentPage}
-        maxPage={Math.max(1, pagination.totalPages)}
-      />
+      {totalItems > 0 && (
+        <p className="text-base text-slate-500">
+          Showing {start} to {end} todos of {totalItems}
+        </p>
+      )}
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 }

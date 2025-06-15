@@ -1,65 +1,65 @@
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from 'react-icons/hi';
-import { useDispatch } from 'react-redux';
 import PaginationButton from './PaginationButton';
-import { changePageAsync } from '../redux/todosSlice';
-import type { AppDispatch } from '../redux/store';
 
 type PaginationProps = {
-  page: number;
-  maxPage: number;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (pageNumber: number) => void;
 };
 
-function Pagination({ page, maxPage }: PaginationProps) {
-  const dispatch = useDispatch<AppDispatch>();
+function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: PaginationProps) {
   let pageNumbers: number[];
 
-  if (page !== 1 && page !== maxPage) {
-    pageNumbers = [page - 1, page, page + 1];
-  } else if (page === 1) {
-    pageNumbers = [page, page + 1, page + 2];
+  if (currentPage !== 1 && currentPage !== totalPages) {
+    pageNumbers = [currentPage - 1, currentPage, currentPage + 1];
+  } else if (currentPage === 1) {
+    pageNumbers = [currentPage, currentPage + 1, currentPage + 2];
   } else {
-    pageNumbers = [page - 2, page - 1, page];
+    pageNumbers = [currentPage - 2, currentPage - 1, currentPage];
   }
 
   pageNumbers = pageNumbers.filter(
-    pageNum => pageNum > 0 && pageNum <= maxPage
+    pageNum => pageNum > 0 && pageNum <= totalPages
   );
 
-  const handleClickPaginationButton = (pageNumber: number) => {
-    dispatch(changePageAsync(pageNumber));
-  };
-
-  const getButtonClass = (isDisabled: boolean) =>
+  const getIconColorClass = (isDisabled: boolean) =>
     isDisabled ? 'text-slate-400' : 'text-slate-700';
 
   return (
     <div className="flex items-center gap-1">
       <span className="text-slate-500 mr-2">
-        Page {page} of {maxPage}
+        Page {currentPage} of {totalPages}
       </span>
+
       <PaginationButton
-        isActive={false}
-        isDisabled={page === 1}
-        onClick={() => handleClickPaginationButton(1)}
+        isDisabled={currentPage === 1}
+        onClick={() => onPageChange(1)}
       >
-        <HiChevronDoubleLeft className={getButtonClass(page === 1)} />
+        <HiChevronDoubleLeft className={getIconColorClass(currentPage === 1)} />
       </PaginationButton>
-      {pageNumbers.map(currPage => (
+
+      {pageNumbers.map(pageNumber => (
         <PaginationButton
-          key={currPage}
-          isActive={currPage === page}
-          isDisabled={currPage === page}
-          onClick={() => handleClickPaginationButton(currPage)}
+          key={pageNumber}
+          isActive={pageNumber === currentPage}
+          isDisabled={pageNumber === currentPage}
+          onClick={() => onPageChange(pageNumber)}
         >
-          {currPage}
+          {pageNumber}
         </PaginationButton>
       ))}
+
       <PaginationButton
-        isActive={false}
-        isDisabled={page === maxPage}
-        onClick={() => handleClickPaginationButton(maxPage)}
+        isDisabled={currentPage === totalPages}
+        onClick={() => onPageChange(totalPages)}
       >
-        <HiChevronDoubleRight className={getButtonClass(page === maxPage)} />
+        <HiChevronDoubleRight
+          className={getIconColorClass(currentPage === totalPages)}
+        />
       </PaginationButton>
     </div>
   );

@@ -1,23 +1,41 @@
+import type { ReactNode } from 'react';
+
 type PaginationButtonProps = {
-  isActive: boolean;
-  isDisabled: boolean;
+  isActive?: boolean;
+  isDisabled?: boolean;
   onClick: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 function PaginationButton({
-  isActive,
-  isDisabled,
+  isActive = false,
+  isDisabled = false,
   onClick,
   children,
 }: PaginationButtonProps) {
+  const baseStyles =
+    'flex items-center justify-center w-10 h-10 rounded-xl text-slate-700';
+
+  const activeStyles = isActive ? 'border border-slate-300 bg-slate-50' : '';
+
+  const interactiveStyles =
+    !isDisabled && !isActive
+      ? 'hover:border hover:border-slate-300 hover:bg-slate-100 cursor-pointer'
+      : '';
+
+  const disabledStyles =
+    isDisabled && !isActive ? 'opacity-50 cursor-not-allowed' : '';
+
+  const className = `${baseStyles} ${activeStyles} ${interactiveStyles} ${disabledStyles}`;
+
   return (
     <button
+      type="button"
       disabled={isDisabled}
-      onClick={isDisabled ? undefined : onClick}
-      tabIndex={0}
-      className={`flex items-center justify-center w-10 h-10 text-slate-700 rounded-xl ${isActive ? 'border border-slate-300 bg-slate-50' : ''} ${isDisabled && !isActive ? '' : 'hover:border hover:border-slate-300 hover:bg-slate-100 cursor-pointer'}`}
+      onClick={onClick}
+      className={className}
       aria-disabled={isDisabled}
+      aria-current={isActive ? 'page' : undefined}
     >
       {children}
     </button>
