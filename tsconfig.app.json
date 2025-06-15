@@ -26,6 +26,7 @@
     "paths": {
       "@src/*": ["*"],
       "@utils/*": ["utils/*"],
+      "@hooks/*": ["hooks/*"],
       "@customTypes/*": ["types/*"],
       "@components/*": ["components/*"],
       "@common/*": ["components/common/*"],
