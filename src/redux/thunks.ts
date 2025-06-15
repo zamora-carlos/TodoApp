@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { updateSortBy, updateFilter } from './viewOptionsSlice';
-import { getTodosAsync, changePageAsync } from './todosSlice';
-import type { RootState } from './store';
+import { updateSortBy, updateFilter } from '@src/redux/viewOptionsSlice';
+import { getTodosAsync, changePageAsync } from '@src/redux/todosSlice';
+import type { RootState } from '@src/redux/store';
 import type { Filter } from '@customTypes/filter';
 import type { SortBy } from '@customTypes/sortBy';
 

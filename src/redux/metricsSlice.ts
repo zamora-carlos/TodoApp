@@ -5,7 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import todosApiService from '@services/todosApiService';
 import type { Metrics } from '@customTypes/metrics';
-import type { RootState } from './store';
+import type { RootState } from '@src/redux/store';
 
 export type MetricsState = Metrics & {
   loading: boolean;

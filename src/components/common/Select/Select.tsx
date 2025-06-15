@@ -37,7 +37,9 @@ function Select<T extends string>({
           id={id}
           value={value}
           onChange={e => onChange(e.target.value as T)}
-          className="select"
+          className={`select ${
+            errorMessage ? 'border-red-400' : 'border-slate-300'
+          }`}
           disabled={disabled}
         >
           {options.map(opt => (
@@ -50,9 +52,7 @@ function Select<T extends string>({
         <TbTriangleInvertedFilled className="select-icon" />
       </div>
 
-      {errorMessage && (
-        <p className="text-red-300 text-sm mt-1">{errorMessage}</p>
-      )}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 }

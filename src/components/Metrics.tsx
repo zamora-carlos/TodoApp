@@ -15,7 +15,7 @@ function Metrics() {
   return (
     <section className="mt-12 md:mt-16">
       <h2 className="text-2xl font-bold text-slate-700">Metrics</h2>
-      <div className="flex items-center gap-4 mt-2 text-slate-600 bg-white p-4 border border-slate-300 rounded-2xl">
+      <div className="flex items-center gap-4 mt-2 text-slate-600 p-4 border border-slate-300 rounded-2xl">
         <div className="grow text-center">
           <p className="text-lg">Average time to finish tasks</p>
           <p className="text-2xl text-center font-bold text-indigo-400">

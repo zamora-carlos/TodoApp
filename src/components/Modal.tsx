@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IoClose } from 'react-icons/io5';
 import DatePicker from 'react-datepicker';
 import Select from '@common/Select';
+import Checkbox from '@common/Checkbox';
 import { addTodoAsync, updateTodoAsync } from '@src/redux/todosSlice';
 import { hideModal } from '@src/redux/modalSlice';
 import { PRIORITY } from '@constants/priority';
@@ -25,7 +26,6 @@ const formatDate = (date: Date) => {
       .toISOString()
       .replace(/\.\d{3}/, '')
       .replace('Z', '.') + '000000';
-  console.log(result);
   return result;
 };
 
@@ -214,7 +214,7 @@ function Modal({ setToast }: ModalProps) {
           <input
             id="todo-text"
             type="text"
-            className="py-2 px-4 mt-1 bg-white border border-slate-300 rounded-lg"
+            className="py-2 px-4 mt-1 border border-slate-300 rounded-lg"
             placeholder="Your todo..."
             value={todo.text}
             onChange={evt =>
@@ -241,13 +241,12 @@ function Modal({ setToast }: ModalProps) {
           <div className="flex items-center">
             <label className="flex gap-2 text-slate-400 items-center">
               <span className="text-slate-600">Due date</span>
-              <input
-                type="checkbox"
+              <Checkbox
                 checked={hasDueDate}
+                size="base"
                 onChange={() =>
                   setHasDueDate(prevHasDueDate => !prevHasDueDate)
                 }
-                className="checkbox"
               />
             </label>
           </div>

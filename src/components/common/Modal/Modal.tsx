@@ -49,7 +49,7 @@ function Modal({ isOpen, onClose, children, fadeDuration = 300 }: ModalProps) {
       <section
         ref={modalRef}
         tabIndex={-1}
-        className={`relative w-full max-w-xl bg-white rounded-2xl border border-slate-300 p-6 transition-translate ${
+        className={`relative bg-white rounded-2xl border border-slate-300 max-w-9/10 transition-translate ${
           isFullyVisible ? 'translate-y-0' : 'translate-y-2'
         }`}
         style={{ transitionDuration: `${fadeDuration}ms` }}

@@ -18,7 +18,7 @@ const modalSlice = createSlice({
       state.isVisible = true;
       state.todoId = null;
     },
-    showEditModal: (state, action: PayloadAction<number | null>) => {
+    showEditModal: (state, action: PayloadAction<number>) => {
       state.isVisible = true;
       state.todoId = action.payload;
     },

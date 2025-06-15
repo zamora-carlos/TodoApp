@@ -3,12 +3,12 @@ import {
   createAsyncThunk,
   type PayloadAction,
 } from '@reduxjs/toolkit';
-import { getMetricsAsync } from './metricsSlice';
+import { getMetricsAsync } from '@src/redux/metricsSlice';
 import todosApiService from '@services/todosApiService';
 import buildQueryParams from '@utils/buildQueryParams';
 import type { PaginatedResponse } from '@customTypes/paginatedResponse';
 import type { TodoPayload } from '@customTypes/todoPayload';
-import type { RootState } from './store';
+import type { RootState } from '@src/redux/store';
 
 export type TodosState = PaginatedResponse & {
   loading: boolean;

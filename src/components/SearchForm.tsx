@@ -39,7 +39,7 @@ function SearchForm() {
       <h2 className="text-2xl font-bold text-slate-700">Search options</h2>
 
       <form
-        className="bg-white border border-slate-300 rounded-2xl p-4 mt-2"
+        className="border border-slate-300 rounded-2xl p-4 mt-2"
         onSubmit={handleSubmitForm}
       >
         <div className="flex flex-col gap-1 text-slate-700 sm:flex-row sm:items-center">
