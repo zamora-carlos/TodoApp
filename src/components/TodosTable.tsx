@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
-import Checkbox from './Checkbox';
+import Checkbox from '@common/Checkbox';
 import Table from '@common/Table';
 import { showEditModal } from '@src/redux/modalSlice';
 import {

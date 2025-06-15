@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import Pagination from './Pagination';
+import Pagination from '@common/Pagination';
 import { changePageAsync } from '@src/redux/todosSlice';
 import type { AppDispatch, RootState } from '@src/redux/store';
 
