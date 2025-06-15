@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Filter } from '../types/filter';
-import type { SortBy } from '../types/sortBy';
-import type { SortCriteria } from '../types/sortCriteria';
+import type { Filter } from '@customTypes/filter';
+import type { SortBy } from '@customTypes/sortBy';
+import type { SortCriteria } from '@customTypes/sortCriteria';
 
 export type ViewOptionsState = {
   sortCriteria: SortCriteria;

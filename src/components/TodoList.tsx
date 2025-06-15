@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTodosAsync } from '../redux/todosSlice';
+import { getTodosAsync } from '@src/redux/todosSlice';
 import TodoListHeaderControls from './TodoListHeaderControls';
 import TodoListHeader from './TodoListHeader';
 import TodoListRow from './TodoListRow';
 import TodoListPaginationInfo from './TodoListPaginationInfo';
-import type { AppDispatch, RootState } from '../redux/store';
+import type { AppDispatch, RootState } from '@src/redux/store';
 
 type TodoListProps = {
   setToast: React.Dispatch<

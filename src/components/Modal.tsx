@@ -2,12 +2,12 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoClose } from 'react-icons/io5';
 import DatePicker from 'react-datepicker';
-import Select from './common/Select';
-import { addTodoAsync, updateTodoAsync } from '../redux/todosSlice';
-import { hideModal } from '../redux/modalSlice';
-import { PRIORITY } from '../constants/priority';
-import type { AppDispatch, RootState } from '../redux/store';
-import type { TodoPayload } from '../types/todoPayload';
+import Select from '@common/Select';
+import { addTodoAsync, updateTodoAsync } from '@src/redux/todosSlice';
+import { hideModal } from '@src/redux/modalSlice';
+import { PRIORITY } from '@constants/priority';
+import type { AppDispatch, RootState } from '@src/redux/store';
+import type { TodoPayload } from '@customTypes/todoPayload';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type ModalProps = {

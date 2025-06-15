@@ -1,5 +1,5 @@
 import React, { JSX } from 'react';
-import type { TableColumn } from '../../types/table';
+import type { TableColumn } from '@customTypes/table';
 
 type TableBodyProps<TData extends { id: string | number }> = {
   columns: TableColumn<TData>[];

@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
-import Select from './common/Select';
-import { updateFilterAndChangePageAsync } from '../redux/thunks';
-import { PRIORITY } from '../constants/priority';
-import { STATUS } from '../constants/status';
-import type { Filter } from '../types/filter';
-import type { AppDispatch } from '../redux/store';
-import type { Priority } from '../types/priority';
-import type { Status } from '../types/status';
+import Select from '@common/Select';
+import { updateFilterAndChangePageAsync } from '@src/redux/thunks';
+import { PRIORITY } from '@constants/priority';
+import { STATUS } from '@constants/status';
+import type { AppDispatch } from '@src/redux/store';
+import type { Filter } from '@customTypes/filter';
+import type { Priority } from '@customTypes/priority';
+import type { Status } from '@customTypes/status';
 
 const ALL_OPTION = 'ALL' as const;
 const priorityOptions = [ALL_OPTION, ...Object.values(PRIORITY)];

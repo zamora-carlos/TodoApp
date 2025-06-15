@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Pagination from './Pagination';
-import { changePageAsync } from '../redux/todosSlice';
-import type { AppDispatch, RootState } from '../redux/store';
+import { changePageAsync } from '@src/redux/todosSlice';
+import type { AppDispatch, RootState } from '@src/redux/store';
 
 function TodoListPaginationInfo() {
   const dispatch = useDispatch<AppDispatch>();

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import Metrics from './components/Metrics';
-import Modal from './components/Modal';
-import SearchForm from './components/SearchForm';
-import TodoList from './components/TodoList';
-import Toast from './components/Toast';
-import TodosTable from './components/TodosTable';
+import Metrics from '@components/Metrics';
+import Modal from '@components/Modal';
+import SearchForm from '@components/SearchForm';
+import TodoList from '@components/TodoList';
+import Toast from '@components/Toast';
+import TodosTable from '@components/TodosTable';
 
 function App() {
   const [toast, setToast] = useState<{

@@ -1,3 +1,3 @@
-import { PRIORITY } from '../constants/priority';
+import { PRIORITY } from '@constants/priority';
 
 export type Priority = (typeof PRIORITY)[keyof typeof PRIORITY];

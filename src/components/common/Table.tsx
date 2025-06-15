@@ -1,7 +1,7 @@
 import React from 'react';
 import TableBody from './TableBody';
 import TableHeader from './TableHeader';
-import type { TableColumn, SortColumn } from '../../types/table';
+import type { TableColumn, SortColumn } from '@customTypes/table';
 
 type TableProps<TData extends { id: string | number }> = {
   columns: TableColumn<TData>[];

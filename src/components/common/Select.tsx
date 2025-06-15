@@ -1,5 +1,5 @@
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
-import formatLabel from '../../utils/formatLabel';
+import formatLabel from '@utils/formatLabel';
 
 type SelectProps<T extends string> = {
   id: string;

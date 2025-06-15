@@ -4,10 +4,10 @@ import {
   type PayloadAction,
 } from '@reduxjs/toolkit';
 import { getMetricsAsync } from './metricsSlice';
-import todosApiService from '../services/todosApiService';
-import buildQueryParams from '../utils/buildQueryParams';
-import type { PaginatedResponse } from '../types/paginatedResponse';
-import type { TodoPayload } from '../types/todoPayload';
+import todosApiService from '@services/todosApiService';
+import buildQueryParams from '@utils/buildQueryParams';
+import type { PaginatedResponse } from '@customTypes/paginatedResponse';
+import type { TodoPayload } from '@customTypes/todoPayload';
 import type { RootState } from './store';
 
 export type TodosState = PaginatedResponse & {

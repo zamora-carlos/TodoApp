@@ -2,9 +2,9 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import AddTodoButton from './AddTodoButton';
-import { changePageSizeAsync } from '../redux/todosSlice';
-import { showCreateModal } from '../redux/modalSlice';
-import type { AppDispatch } from '../redux/store';
+import { changePageSizeAsync } from '@src/redux/todosSlice';
+import { showCreateModal } from '@src/redux/modalSlice';
+import type { AppDispatch } from '@src/redux/store';
 
 function TodoListHeaderControls() {
   const dispatch = useDispatch<AppDispatch>();

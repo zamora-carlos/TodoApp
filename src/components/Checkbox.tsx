@@ -10,7 +10,7 @@ function Checkbox({ checked, onChange }: CheckboxProps) {
         type="checkbox"
         checked={checked}
         onChange={onChange}
-        aria-checked={checked ? 'true' : 'false'}
+        aria-checked={checked}
         className="checkbox"
       />
       <span className="sr-only">{checked ? 'Done' : 'Undone'}</span>

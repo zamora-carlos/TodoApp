@@ -1,6 +1,6 @@
-import type { Metrics } from '../types/metrics';
-import type { PaginatedResponse } from '../types/paginatedResponse';
-import type { TodoPayload } from '../types/todoPayload';
+import type { Metrics } from '@customTypes/metrics';
+import type { PaginatedResponse } from '@customTypes/paginatedResponse';
+import type { TodoPayload } from '@customTypes/todoPayload';
 
 const BASE_URL = 'http://localhost:9090/api/v1/todos';
 

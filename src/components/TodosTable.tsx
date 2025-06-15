@@ -2,21 +2,21 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import Checkbox from './Checkbox';
-import Table from './common/Table';
-import { showEditModal } from '../redux/modalSlice';
+import Table from '@common/Table';
+import { showEditModal } from '@src/redux/modalSlice';
 import {
   deleteTodoAsync,
   getTodosAsync,
   toggleTodoAsync,
-} from '../redux/todosSlice';
-import { updateSortAndFetchTodosAsync } from '../redux/thunks';
-import formatDateString from '../utils/formatDateString';
-import getDueDateColor from '../utils/getDueDateColor';
-import { SORT_BY } from '../constants/sortBy';
-import type { AppDispatch, RootState } from '../redux/store';
-import type { TodoResponse as Todo } from '../types/todoResponse';
-import type { TableColumn } from '../types/table';
-import type { SortCriteria } from '../types/sortCriteria';
+} from '@src/redux/todosSlice';
+import { updateSortAndFetchTodosAsync } from '@src/redux/thunks';
+import formatDateString from '@utils/formatDateString';
+import getDueDateColor from '@utils/getDueDateColor';
+import { SORT_BY } from '@constants/sortBy';
+import type { AppDispatch, RootState } from '@src/redux/store';
+import type { TodoResponse as Todo } from '@customTypes/todoResponse';
+import type { TableColumn } from '@customTypes/table';
+import type { SortCriteria } from '@customTypes/sortCriteria';
 
 const TodosTable = () => {
   const dispatch = useDispatch<AppDispatch>();

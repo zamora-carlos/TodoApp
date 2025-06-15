@@ -1,7 +1,7 @@
 import React, { JSX, useCallback } from 'react';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
-import { SORT_ORDER } from '../../constants/sortOrder';
-import type { TableColumn, SortColumn } from '../../types/table';
+import { SORT_ORDER } from '@constants/sortOrder';
+import type { TableColumn, SortColumn } from '@customTypes/table';
 
 type SortableHeaderCellProps<TData> = {
   column: TableColumn<TData>;

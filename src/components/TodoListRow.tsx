@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { HiPencil, HiTrash } from 'react-icons/hi2';
 import Checkbox from './Checkbox';
-import { deleteTodoAsync, toggleTodoAsync } from '../redux/todosSlice';
-import { showEditModal } from '../redux/modalSlice';
-import formatDateString from '../utils/formatDateString';
-import getDueDateColor from '../utils/getDueDateColor';
-import type { TodoResponse } from '../types/todoResponse';
-import type { AppDispatch, RootState } from '../redux/store';
+import { deleteTodoAsync, toggleTodoAsync } from '@src/redux/todosSlice';
+import { showEditModal } from '@src/redux/modalSlice';
+import formatDateString from '@utils/formatDateString';
+import getDueDateColor from '@utils/getDueDateColor';
+import type { TodoResponse } from '@customTypes/todoResponse';
+import type { AppDispatch, RootState } from '@src/redux/store';
 
 type TodoListRowProps = {
   todo: TodoResponse;

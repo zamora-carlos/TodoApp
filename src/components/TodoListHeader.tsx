@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
-import { updateSortBy } from '../redux/viewOptionsSlice';
-import { getTodosAsync } from '../redux/todosSlice';
-import type { AppDispatch, RootState } from '../redux/store';
-import type { SortBy } from '../types/sortBy';
+import { updateSortBy } from '@src/redux/viewOptionsSlice';
+import { getTodosAsync } from '@src/redux/todosSlice';
+import type { AppDispatch, RootState } from '@src/redux/store';
+import type { SortBy } from '@customTypes/sortBy';
 
 const columnsData: Record<SortBy, { columnName: string; className: string }> = {
   TEXT: { columnName: 'Name', className: '' },

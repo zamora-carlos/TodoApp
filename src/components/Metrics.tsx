@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMetricsAsync } from '../redux/metricsSlice';
-import formatTimeFromSeconds from '../utils/formatTimeFromSeconds';
-import type { AppDispatch, RootState } from '../redux/store';
+import { getMetricsAsync } from '@src/redux/metricsSlice';
+import formatTimeFromSeconds from '@utils/formatTimeFromSeconds';
+import type { AppDispatch, RootState } from '@src/redux/store';
 
 function Metrics() {
   const dispatch = useDispatch<AppDispatch>();

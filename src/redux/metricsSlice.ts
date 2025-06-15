@@ -3,8 +3,8 @@ import {
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
-import todosApiService from '../services/todosApiService';
-import type { Metrics } from '../types/metrics';
+import todosApiService from '@services/todosApiService';
+import type { Metrics } from '@customTypes/metrics';
 import type { RootState } from './store';
 
 export type MetricsState = Metrics & {

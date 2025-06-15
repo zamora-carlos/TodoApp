@@ -1,4 +1,4 @@
-import type { RootState } from '../redux/store';
+import type { RootState } from '@src/redux/store';
 
 function buildQueryParams(state: RootState): URLSearchParams {
   const { viewOptions, todos } = state;
