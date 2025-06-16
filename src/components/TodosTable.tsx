@@ -12,6 +12,7 @@ import {
 import { updateSortAndFetchTodosAsync } from '@src/redux/thunks';
 import formatDateString from '@utils/formatDateString';
 import getDueDateColor from '@utils/getDueDateColor';
+import formatLabel from '@utils/formatLabel';
 import { SORT_BY } from '@constants/sortBy';
 import type { AppDispatch, RootState } from '@src/redux/store';
 import type { TodoResponse as Todo } from '@customTypes/todoResponse';
@@ -76,7 +77,7 @@ const TodosTable = () => {
         name: SORT_BY.TEXT,
         content: todo => (
           <span
-            className={todo.done ? 'line-through italic text-slate-500' : ''}
+            className={`break-words ${todo.done ? 'line-through italic text-slate-500' : ''}`}
           >
             {todo.text}
           </span>
@@ -87,9 +88,7 @@ const TodosTable = () => {
         className: 'w-28 md:w-32 lg:w-36',
         sortable: true,
         name: SORT_BY.PRIORITY,
-        content: todo =>
-          todo.priority.charAt(0).toUpperCase() +
-          todo.priority.slice(1).toLowerCase(),
+        content: todo => formatLabel(todo.priority),
       },
       {
         label: 'Due date',

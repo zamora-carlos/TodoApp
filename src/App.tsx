@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Metrics from '@components/Metrics';
 import SearchForm from '@components/SearchForm';
-import TodoList from '@components/TodoList';
 import Toast from '@components/Toast';
 import TodosTableView from '@components/TodosTableView';
 import TodoModal from '@components/TodoModal';
@@ -18,7 +17,6 @@ function App() {
         My todo list
       </h1>
       <SearchForm />
-      <TodoList setToast={setToast} />
       <TodosTableView />
       <Metrics />
 
