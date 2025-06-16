@@ -58,7 +58,7 @@ function Modal({ isOpen, onClose, children, fadeDuration = 300 }: ModalProps) {
       >
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center border border-slate-300 rounded-xl hover:bg-slate-100 group"
+          className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center border border-slate-300 rounded-xl hover:bg-slate-100 group cursor-pointer"
           aria-label="Close modal"
         >
           <IoClose className="text-slate-500 group-hover:rotate-90 transition-transform" />
