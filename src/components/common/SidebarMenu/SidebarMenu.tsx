@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { NavLink } from 'react-router-dom';
 import { RxDashboard } from 'react-icons/rx';
 import { FiCheckSquare } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
@@ -11,7 +12,6 @@ type SidebarMenuProps = {
 };
 
 function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
-  const [activeLink, setActiveLink] = useState('Dashboard');
   const sidebarRef = useRef<HTMLElement>(null);
 
   useFocusTrap(sidebarRef, isOpen);
@@ -44,14 +44,9 @@ function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  const handleLinkClick = (linkName: string) => {
-    setActiveLink(linkName);
-    onClose();
-  };
-
   const menuItems = [
-    { name: 'Dashboard', icon: RxDashboard },
-    { name: 'Todos', icon: FiCheckSquare },
+    { name: 'Todos', icon: FiCheckSquare, to: '/' },
+    { name: 'Dashboard', icon: RxDashboard, to: '/dashboard' },
   ];
 
   return (
@@ -94,13 +89,13 @@ function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
           <ul className="space-y-2">
             {menuItems.map(item => {
               const IconComponent = item.icon;
-              const isActive = activeLink === item.name;
 
               return (
                 <li key={item.name}>
-                  <button
-                    onClick={() => handleLinkClick(item.name)}
-                    className={`
+                  <NavLink
+                    to={item.to}
+                    onClick={onClose}
+                    className={({ isActive }) => `
                       flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200
                       text-left w-full group cursor-pointer border border-transparent
                       ${
@@ -109,16 +104,19 @@ function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
                           : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                       }
                     `}
-                    aria-current={isActive ? 'page' : undefined}
                   >
-                    <IconComponent
-                      className={`
-                        min-w-5 h-auto transition-colors
-                        ${isActive ? 'text-indigo-500' : 'text-slate-400 group-hover:text-slate-600'}
-                      `}
-                    />
-                    <span className="font-medium">{item.name}</span>
-                  </button>
+                    {({ isActive }) => (
+                      <>
+                        <IconComponent
+                          className={`
+                            min-w-5 h-auto transition-colors
+                            ${isActive ? 'text-indigo-500' : 'text-slate-400 group-hover:text-slate-600'}
+                          `}
+                        />
+                        <span className="font-medium">{item.name}</span>
+                      </>
+                    )}
+                  </NavLink>
                 </li>
               );
             })}
