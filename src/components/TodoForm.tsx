@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import Select from '@common/Select';
 import Checkbox from '@common/Checkbox';
 import useTodoValidation from '@hooks/useTodoValidation';
+import formatLocalDate from '@utils/formatLocalDate';
 import isTodayOrLater from '@utils/isTodayOrLater';
 import { PRIORITY } from '@constants/priority';
 import type { TodoPayload } from '@customTypes/todoPayload';
@@ -55,7 +56,7 @@ function TodoForm({ todo, onSubmit }: TodoFormProps) {
       const payload: TodoPayload = {
         text: formData.text,
         priority: formData.priority,
-        dueDate: hasDueDate ? formData.dueDate.toISOString() : null,
+        dueDate: hasDueDate ? formatLocalDate(formData.dueDate) : null,
       };
 
       onSubmit(payload);
