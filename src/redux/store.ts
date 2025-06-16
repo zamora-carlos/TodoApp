@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import todosReducer from '../redux/todosSlice';
-import viewOptionsReducer from '../redux/viewOptionsSlice';
-import modalReducer from '../redux/modalSlice';
-import metricsReducer from '../redux/metricsSlice';
+import todosReducer from '@src/redux/todosSlice';
+import viewOptionsReducer from '@src/redux/viewOptionsSlice';
+import modalReducer from '@src/redux/modalSlice';
+import metricsReducer from '@src/redux/metricsSlice';
+import toastReducer from '@src/redux/toastSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     viewOptions: viewOptionsReducer,
     modal: modalReducer,
     metrics: metricsReducer,
+    toast: toastReducer,
   },
 });
 

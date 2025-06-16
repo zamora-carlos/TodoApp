@@ -17,6 +17,7 @@ function formatTimeFromSeconds(seconds: number): string {
     }
   }
 
+  // Removes leading zeroes
   return output.trim().replace(/^0?(.+)/, '$1');
 }
 
