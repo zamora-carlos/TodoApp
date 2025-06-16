@@ -11,38 +11,61 @@ This project is a front-end application that consumes an API and serves as an in
 
 ## Getting started
 
-### Prerequisites
+### Run with Docker (Recommended)
+
+Make sure you have Docker installed and the backend is running on port `9090`.
+For backend setup, check out [TodoApp-Backend](https://github.com/zamora-carlos/TodoApp-Backend).
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/zamora-carlos/TodoApp.git
+   ```
+
+2. **Navigate to the project folder**:
+
+   ```bash
+   cd TodoApp
+   ```
+
+3. **Build and run the container**:
+
+   ```bash
+   docker build -t todoapp-frontend .
+   docker run -p 8080:8080 todoapp-frontend
+   ```
+
+The frontend will be available at [http://localhost:8080](http://localhost:8080).
+
+### Manual setup
 
 Make sure you have Node.js and Git installed.
 You also need to have the backend running on port 9090, as the frontend depends on it for managing todos.
 For detailed setup instructions, visit [TodoApp-Backend](https://github.com/zamora-carlos/TodoApp-Backend).
 
-### Setup
+1. **Clone the repository**:
 
-- **Clone the repository**:
+   ```bash
+   git clone https://github.com/zamora-carlos/TodoApp.git
+   ```
 
-  ```bash
-  git clone https://github.com/zamora-carlos/TodoApp.git
-  ```
+2. **Navigate to the project folder**:
 
-- **Navigate to project folder**:
+   ```bash
+   cd TodoApp
+   ```
 
-  ```bash
-  cd TodoApp
-  ```
+3. **Install dependencies and build the application**:
 
-- **Install dependencies and build the application**:
-  ```bash
-  npm install
-  ```
+   ```bash
+   npm install
+   ```
 
-### Running the project
+4. **Start the development server**:
 
-Start the development server:
-
-```bash
-npm run dev
-```
+   ```bash
+   npm run dev
+   ```
 
 The application will start at http://localhost:8080.
 
@@ -73,10 +96,14 @@ The application will start at http://localhost:8080.
 ```
 TodoApp/
 │── src/
-│   ├── components/      # UI components
-│   ├── redux/           # Redux store and slices
-│   ├── types/           # TypeScript types
-│   ├── services/        # API requests to backend
-│   ├── utils/           # Utility functions
-│   ├── App.tsx          # Main application component
+│   ├── components/        # UI components
+│   │   └── common/        # Reusable shared components
+│   ├── pages/             # Route-level components or views
+│   ├── hooks/             # Custom React hooks
+│   ├── constants/         # App-wide constant values and enums
+│   ├── redux/             # Redux store and slices
+│   ├── types/             # TypeScript types and interfaces
+│   ├── services/          # API services and backend requests
+│   ├── utils/             # Utility and helper functions
+│   ├── App.tsx            # Main application component
 ```
