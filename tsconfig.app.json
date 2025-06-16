@@ -31,7 +31,8 @@
       "@components/*": ["components/*"],
       "@common/*": ["components/common/*"],
       "@constants/*": ["constants/*"],
-      "@services/*": ["services/*"]
+      "@services/*": ["services/*"],
+      "@pages/*": ["pages/*"]
     }
   },
   "include": ["src"]

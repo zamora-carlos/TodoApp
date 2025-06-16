@@ -39,7 +39,7 @@ function Modal({ isOpen, onClose, children, fadeDuration = 300 }: ModalProps) {
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center bg-slate-400/50 transition-opacity ${
+      className={`fixed inset-0 flex items-center justify-center bg-slate-400/50 transition-opacity z-60 ${
         isFullyVisible
           ? 'opacity-100 pointer-events-auto'
           : 'opacity-0 pointer-events-none'

@@ -19,6 +19,7 @@ export default defineConfig({
       '@common': path.resolve(__dirname, 'src/components/common'),
       '@constants': path.resolve(__dirname, 'src/constants'),
       '@services': path.resolve(__dirname, 'src/services'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
     },
   },
 });
