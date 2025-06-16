@@ -31,7 +31,7 @@ function Pagination({
 
   return (
     <div className="flex items-center gap-1">
-      <span className="text-slate-500 mr-2">
+      <span className="text-slate-500 mr-2 sr-only sm:not-sr-only">
         Page {currentPage} of {totalPages}
       </span>
 

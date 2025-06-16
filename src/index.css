@@ -4,6 +4,10 @@ body {
   @apply overflow-x-hidden;
 }
 
+@theme {
+  --breakpoint-xs: 24rem;
+}
+
 @utility browser-appearance-none {
   -webkit-appearance: none;
   -moz-appearance: none;

@@ -3,7 +3,7 @@ import Metrics from '@components/Metrics';
 import SearchForm from '@components/SearchForm';
 import TodoList from '@components/TodoList';
 import Toast from '@components/Toast';
-import TodosTable from '@components/TodosTable';
+import TodosTableView from '@components/TodosTableView';
 import TodoModal from '@components/TodoModal';
 
 function App() {
@@ -19,9 +19,7 @@ function App() {
       </h1>
       <SearchForm />
       <TodoList setToast={setToast} />
-      <div style={{ marginBlock: '10rem' }}>
-        <TodosTable />
-      </div>
+      <TodosTableView />
       <Metrics />
 
       <TodoModal />
