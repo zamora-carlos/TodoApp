@@ -1,30 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { HiOutlineMenuAlt2 } from 'react-icons/hi';
 import { RxDashboard } from 'react-icons/rx';
 import { FiCheckSquare } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
+import useClickOutside from '@hooks/useClickOutside';
+import useFocusTrap from '@hooks/useFocusTrap';
 
 function SidebarMenu() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('Dashboard');
+  const sidebarRef = useRef<HTMLElement>(null);
 
-  // Close mobile menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
+  useFocusTrap(sidebarRef, isMobileMenuOpen);
+  useClickOutside(sidebarRef, () => {
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+    }
+  });
 
-      if (
-        isMobileMenuOpen &&
-        !target.closest('.sidebar-content') &&
-        !target.closest('.hamburger-btn')
-      ) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isMobileMenuOpen]);
+  const menuItems = [
+    { name: 'Dashboard', icon: RxDashboard },
+    { name: 'Todos', icon: FiCheckSquare },
+  ];
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -39,15 +36,24 @@ function SidebarMenu() {
     };
   }, [isMobileMenuOpen]);
 
+  // Close sidebar on Escape key press
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape' && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
   const handleLinkClick = (linkName: string) => {
     setActiveLink(linkName);
     setIsMobileMenuOpen(false); // Close mobile menu when link is clicked
   };
-
-  const menuItems = [
-    { name: 'Dashboard', icon: RxDashboard },
-    { name: 'Todos', icon: FiCheckSquare },
-  ];
 
   return (
     <div className="flex min-h-screen bg-slate-50">
@@ -70,6 +76,7 @@ function SidebarMenu() {
 
       {/* Sidebar */}
       <aside
+        ref={sidebarRef}
         className={`
           sidebar-content fixed xl:static top-0 bottom-0 left-0 z-50 w-9/10 max-w-[24rem]
           bg-white border-r border-slate-200 shadow-lg xl:shadow-none

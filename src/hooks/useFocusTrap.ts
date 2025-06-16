@@ -1,23 +1,23 @@
 import { useEffect, RefObject } from 'react';
 
 function useFocusTrap(
-  modalRef: RefObject<HTMLElement | null>,
+  containerRef: RefObject<HTMLElement | null>,
   isOpen: boolean
 ) {
   useEffect(() => {
-    if (!isOpen || !modalRef.current) return;
+    if (!isOpen || !containerRef.current) return;
 
-    const modal = modalRef.current;
+    const container = containerRef.current;
     const previouslyFocusedElement = document.activeElement as HTMLElement;
 
-    const focusableElements = modal.querySelectorAll<HTMLElement>(
+    const focusableElements = container.querySelectorAll<HTMLElement>(
       'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
     );
 
     if (focusableElements.length) {
       focusableElements[0].focus();
     } else {
-      modal.focus();
+      container.focus();
     }
 
     function handleKeyDown(e: KeyboardEvent) {
@@ -52,7 +52,7 @@ function useFocusTrap(
       document.removeEventListener('keydown', handleKeyDown);
       previouslyFocusedElement?.focus();
     };
-  }, [isOpen, modalRef]);
+  }, [isOpen, containerRef]);
 }
 
 export default useFocusTrap;
