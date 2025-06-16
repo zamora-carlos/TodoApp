@@ -10,6 +10,7 @@ import {
   toggleTodoAsync,
 } from '@src/redux/todosSlice';
 import { updateSortAndFetchTodosAsync } from '@src/redux/thunks';
+import useToast from '@hooks/useToast';
 import formatDateString from '@utils/formatDateString';
 import getDueDateColor from '@utils/getDueDateColor';
 import formatLabel from '@utils/formatLabel';
@@ -17,31 +18,49 @@ import { SORT_BY } from '@constants/sortBy';
 import type { AppDispatch, RootState } from '@src/redux/store';
 import type { TodoResponse as Todo } from '@customTypes/todoResponse';
 import type { TableColumn } from '@customTypes/table';
-import type { SortCriteria } from '@customTypes/sortCriteria';
+import type { SortBy } from '@customTypes/sortBy';
 
 const TodosTable = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { content: todos } = useSelector((state: RootState) => state.todos);
+  const { content: todos, error } = useSelector(
+    (state: RootState) => state.todos
+  );
   const sortCriteria = useSelector(
     (state: RootState) => state.viewOptions.sortCriteria
   );
+  const { showSuccess, showError } = useToast();
 
   useEffect(() => {
     dispatch(getTodosAsync());
   }, [dispatch]);
 
   const handleDelete = useCallback(
-    (todo: Todo) => {
-      dispatch(deleteTodoAsync(todo.id));
+    async (todo: Todo) => {
+      try {
+        await dispatch(deleteTodoAsync(todo.id)).unwrap();
+        showSuccess('Todo deleted successfully!');
+      } catch {
+        showError(error || 'Failed to delete todo. Please try again.');
+      }
     },
-    [dispatch]
+    [dispatch, error, showSuccess, showError]
   );
 
   const handleToggle = useCallback(
-    (todo: Todo) => {
-      dispatch(toggleTodoAsync({ id: todo.id, done: !todo.done }));
+    async (todo: Todo) => {
+      try {
+        await dispatch(
+          toggleTodoAsync({ id: todo.id, done: !todo.done })
+        ).unwrap();
+        const statusMessage = todo.done
+          ? 'Todo marked as pending!'
+          : 'Todo completed!';
+        showSuccess(statusMessage);
+      } catch {
+        showError(error || 'Failed to update todo status. Please try again.');
+      }
     },
-    [dispatch]
+    [dispatch, error, showSuccess, showError]
   );
 
   const handleEdit = useCallback(
@@ -53,7 +72,7 @@ const TodosTable = () => {
 
   const handleSort = useCallback(
     (column: TableColumn<Todo>) => {
-      const sortBy = column.name as SortCriteria['sortBy'];
+      const sortBy = column.name as SortBy;
       dispatch(updateSortAndFetchTodosAsync(sortBy));
     },
     [dispatch]

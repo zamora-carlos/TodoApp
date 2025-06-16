@@ -3,13 +3,17 @@ import Modal from '@common/Modal';
 import TodoForm from '@components/TodoForm';
 import { addTodoAsync, updateTodoAsync } from '@src/redux/todosSlice';
 import { hideModal } from '@src/redux/modalSlice';
+import useToast from '@hooks/useToast';
 import type { AppDispatch, RootState } from '@src/redux/store';
 import type { TodoPayload } from '@customTypes/todoPayload';
 
 function TodoModal() {
   const dispatch = useDispatch<AppDispatch>();
   const modalState = useSelector((state: RootState) => state.modal);
-  const { content: todos } = useSelector((state: RootState) => state.todos);
+  const { content: todos, error } = useSelector(
+    (state: RootState) => state.todos
+  );
+  const { showSuccess, showError } = useToast();
 
   const todoToEdit =
     modalState.todoId != null
@@ -31,21 +35,26 @@ function TodoModal() {
   const handleSubmit = async (todo: TodoPayload) => {
     try {
       if (modalState.todoId) {
-        console.log(todo);
-        dispatch(
+        await dispatch(
           updateTodoAsync({
             id: modalState.todoId,
             todo,
           })
-        );
+        ).unwrap();
+        showSuccess('Todo updated successfully!');
       } else {
-        dispatch(addTodoAsync(todo));
+        await dispatch(addTodoAsync(todo)).unwrap();
+        showSuccess('Todo created successfully!');
       }
-    } catch (error) {
-      console.error(error);
-    }
 
-    handleClose();
+      handleClose();
+    } catch {
+      const errorMessage = modalState.todoId
+        ? 'Failed to update todo. Please try again.'
+        : 'Failed to create todo. Please try again.';
+
+      showError(error || errorMessage);
+    }
   };
 
   return (
