@@ -1,31 +1,27 @@
 import { useState, useEffect, useRef } from 'react';
-import { HiOutlineMenuAlt2 } from 'react-icons/hi';
 import { RxDashboard } from 'react-icons/rx';
 import { FiCheckSquare } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import useClickOutside from '@hooks/useClickOutside';
 import useFocusTrap from '@hooks/useFocusTrap';
 
-function SidebarMenu() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+type SidebarMenuProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+function SidebarMenu({ isOpen, onClose }: SidebarMenuProps) {
   const [activeLink, setActiveLink] = useState('Dashboard');
   const sidebarRef = useRef<HTMLElement>(null);
 
-  useFocusTrap(sidebarRef, isMobileMenuOpen);
+  useFocusTrap(sidebarRef, isOpen);
   useClickOutside(sidebarRef, () => {
-    if (isMobileMenuOpen) {
-      setIsMobileMenuOpen(false);
-    }
+    if (isOpen) onClose();
   });
-
-  const menuItems = [
-    { name: 'Dashboard', icon: RxDashboard },
-    { name: 'Todos', icon: FiCheckSquare },
-  ];
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    if (isMobileMenuOpen) {
+    if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -34,42 +30,36 @@ function SidebarMenu() {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isMobileMenuOpen]);
+  }, [isOpen]);
 
   // Close sidebar on Escape key press
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape' && isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
       }
     }
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isMobileMenuOpen]);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   const handleLinkClick = (linkName: string) => {
     setActiveLink(linkName);
-    setIsMobileMenuOpen(false); // Close mobile menu when link is clicked
+    onClose();
   };
 
-  return (
-    <div className="flex min-h-screen bg-slate-50">
-      {/* Mobile Hamburger Button */}
-      <button
-        onClick={() => setIsMobileMenuOpen(true)}
-        className="hamburger-btn fixed top-4 left-4 z-50 xl:hidden w-10 h-10 flex items-center justify-center bg-white border border-slate-300 rounded-lg shadow-sm hover:bg-slate-50 transition-colors cursor-pointer"
-        aria-label="Open menu"
-      >
-        <HiOutlineMenuAlt2 className="w-5 h-5 text-slate-600" />
-      </button>
+  const menuItems = [
+    { name: 'Dashboard', icon: RxDashboard },
+    { name: 'Todos', icon: FiCheckSquare },
+  ];
 
+  return (
+    <>
       {/* Mobile Backdrop */}
-      {isMobileMenuOpen && (
+      {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-400/50 z-40 xl:hidden transition-opacity"
+          className="fixed inset-0 bg-slate-400/50 z-40 2xl:hidden transition-opacity"
           aria-hidden="true"
         />
       )}
@@ -78,17 +68,17 @@ function SidebarMenu() {
       <aside
         ref={sidebarRef}
         className={`
-          sidebar-content fixed xl:static top-0 bottom-0 left-0 z-50 w-9/10 max-w-[24rem]
-          bg-white border-r border-slate-200 shadow-lg xl:shadow-none
+          sidebar-content fixed 2xl:static top-0 bottom-0 left-0 z-50 w-9/10 max-w-[20rem]
+          bg-white border-r border-slate-200 shadow-lg 2xl:shadow-none
           transform transition-transform duration-300 ease-in-out
-          xl:transform-none xl:translate-x-0
-          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+          2xl:transform-none 2xl:translate-x-0
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
         {/* Mobile Close Button */}
         <button
-          onClick={() => setIsMobileMenuOpen(false)}
-          className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center border border-slate-300 rounded-xl hover:bg-slate-100 group cursor-pointer xl:hidden transition-colors"
+          onClick={onClose}
+          className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center border border-slate-300 rounded-xl hover:bg-slate-100 group cursor-pointer 2xl:hidden transition-colors"
           aria-label="Close menu"
         >
           <IoClose className="text-slate-500 group-hover:rotate-90 transition-transform" />
@@ -123,7 +113,7 @@ function SidebarMenu() {
                   >
                     <IconComponent
                       className={`
-                        w-5 h-5 transition-colors
+                        min-w-5 h-auto transition-colors
                         ${isActive ? 'text-indigo-500' : 'text-slate-400 group-hover:text-slate-600'}
                       `}
                     />
@@ -135,7 +125,7 @@ function SidebarMenu() {
           </ul>
         </nav>
       </aside>
-    </div>
+    </>
   );
 }
 
